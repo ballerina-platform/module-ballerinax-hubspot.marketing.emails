@@ -136,7 +136,7 @@ public type ForwardPaging record {
 };
 
 public type PublicButtonStyleSettings record {
-    record {} backgroundColor?;
+    string backgroundColor?;
     PublicFontStyle fontStyle?;
     int:Signed32 cornerRadius?;
 };

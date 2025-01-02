@@ -36,7 +36,24 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  This change ensures that the type is generated correctly to handle the payload from the response.
 
-2. 
+2. Change `"type":"object"` to `"type":"string"` in `components->schemas->PublicButtonStyleSettings->properties->backgroundColor`
+- **Original**: 
+```json
+"backgroundColor" : {
+            "type" : "object",
+            "properties" : { }
+          }
+```
+
+- **Updated**: 
+```json
+"backgroundColor" : {
+            "type" : "string"
+          },
+```
+
+- **Reason**:  The API returns backgroundColor as a string (eg: "#FF234A"). This change ensures that the type is generated correctly to handle the payload from the response.
+
 3. 
 
 ## OpenAPI cli command

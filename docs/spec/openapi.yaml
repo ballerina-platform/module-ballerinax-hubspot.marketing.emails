@@ -1919,8 +1919,7 @@
         "type" : "object",
         "properties" : {
           "backgroundColor" : {
-            "type" : "object",
-            "properties" : { }
+            "type" : "string"
           },
           "fontStyle" : {
             "$ref" : "#/components/schemas/PublicFontStyle"
