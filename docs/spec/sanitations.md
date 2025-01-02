@@ -54,7 +54,25 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  The API returns backgroundColor as a string (eg: "#FF234A"). This change ensures that the type is generated correctly to handle the payload from the response.
 
-3. 
+3. Remove `sendOnPublish` from the required list in `components->schemas->PublicEmail`
+- **Original**: 
+```json
+      "PublicEmail" : {
+        "required" : [ "content", "from", "id", "name", "sendOnPublish",  "state", "subcategory", "subject", "to" ],
+        ...
+      }
+
+```
+
+- **Updated**: 
+```json
+      "PublicEmail" : {
+        "required" : [ "content", "from", "id", "name",  "state", "subcategory", "subject", "to" ],
+        ...
+      }
+```
+
+- **Reason**:  The API does not return on the sendOnPublish field for some emails. This leads to a payload binding error as it is marked as required in the API specification. Removing it from the required list ensures that the types are generated correctly to handle the payload from the response.
 
 ## OpenAPI cli command
 

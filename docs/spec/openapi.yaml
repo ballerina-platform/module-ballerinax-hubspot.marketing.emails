@@ -1476,7 +1476,7 @@
         "description" : "Response object for collections of marketing emails with pagination information."
       },
       "PublicEmail" : {
-        "required" : [ "content", "from", "id", "name", "sendOnPublish", "state", "subcategory", "subject", "to" ],
+        "required" : [ "content", "from", "id", "name",  "state", "subcategory", "subject", "to" ],
         "type" : "object",
         "properties" : {
           "feedbackSurveyId" : {

@@ -96,7 +96,7 @@ public type PublicEmail record {
     string subcategory;
     string campaignName?;
     # Determines whether the email will be sent immediately on publish.
-    boolean sendOnPublish;
+    boolean sendOnPublish?;
 };
 
 # Request body object for creating A/B tests.
