@@ -4,7 +4,7 @@
 
 [HubSpot](https://www.hubspot.com/our-story) is a customer platform with all the software, integrations, and resources users need to connect thier marketing, sales, and customer service.
 
-The `ballerinax/hubspot.marketing.emails` package offers APIs to connect and interact with [HubSpot API for Marketing Emails](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails) endpoints, specifically based on [HubSpot Marketing Emails API v3 OpenAPI spec](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Emails/Rollouts/145892/v3/marketingEmails.json).
+The `ballerinax/hubspot.marketing.emails` package offers APIs to connect and interact with [HubSpot Marketing Emails API](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails) endpoints, specifically based on [OpenAPI specification for HubSpot Marketing Emails API v3](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Emails/Rollouts/145892/v3/marketingEmails.json).
 
 Using this API, users can develop applications easily that enables you to track marketing emails.
 
