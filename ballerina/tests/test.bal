@@ -3,6 +3,7 @@ import ballerina/oauth2;
 // import ballerina/io;
 import ballerina/os;
 import ballerina/time;
+import ballerina/http;
 
 
 configurable string clientId = ?;
@@ -92,7 +93,7 @@ public function testEmailsEp() returns error? {
 }
 
 
-@test:Config
+@test:Config{dependsOn: [testCreateEmailEp]}
 isolated function testListEp() returns error? {
     AggregateEmailStatistics|error response = check hubspotClient->/marketing/v3/emails/statistics/list({}, 
     {
@@ -111,7 +112,7 @@ isolated function testListEp() returns error? {
 }
 
 
-@test:Config
+@test:Config{dependsOn: [testCreateEmailEp]}
 isolated function testHistogramEp() returns error? {
     CollectionResponseWithTotalEmailStatisticIntervalNoPaging|error response = check
     hubspotClient->/marketing/v3/emails/statistics/histogram({}, 
@@ -133,5 +134,26 @@ isolated function testHistogramEp() returns error? {
         }
     } else {
         test:assertFail("Failed to get response from /marketing/v3/emails/statistics/histogram");
+    }
+}
+
+@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
+public function testDeleteEndpoint() returns error? {
+    // Delete the created email and the clone
+    http:Response|error response_test_email = check hubspotClient->/marketing/v3/emails/[testEmailId].delete();
+    http:Response|error response_clone_email = check hubspotClient->/marketing/v3/emails/[cloneEmailId].delete();
+
+    if response_test_email is http:Response {
+        // Check if the response status is 204
+        test:assertEquals(response_test_email.statusCode, 204);
+    } else {
+        test:assertFail("Failed to delete test email.");
+    }
+
+    if response_clone_email is http:Response {
+        // Check if the response status is 204
+        test:assertEquals(response_clone_email.statusCode, 204);
+    } else {
+        test:assertFail("Failed to delete test email.");
     }
 }
