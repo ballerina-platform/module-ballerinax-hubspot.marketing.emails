@@ -27,6 +27,7 @@ final int days = 40;
 
 
 string testEmailId = "";
+string cloneEmailId = "";
 
 @test:Config
 public function testCreateEmailEp() returns error? {
@@ -43,15 +44,37 @@ public function testCreateEmailEp() returns error? {
     
 }
 
-
 @test:Config{dependsOn: [testCreateEmailEp]}
+public function testCloneEmailEp() returns error? {
+    PublicEmail|error response = check hubspotClient->/marketing/v3/emails/clone.post({
+        id: testEmailId,
+        cloneName: "Cloned Email"
+    });
+
+    if response is PublicEmail {
+        cloneEmailId = response.id;
+    } else {
+        test:assertFail("Failed to clone new email");
+    }
+}
+
+
+@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp]}
 public function testRetrieveEmailEp() returns error? {
     PublicEmail|error response = check hubspotClient->/marketing/v3/emails/[testEmailId];
 
     if response is PublicEmail {
-        test:assertFalse(response.id != testEmailId, "Error: Incorrect email retrieved");
+        test:assertFalse(response.id != testEmailId, "Error: Incorrect email retrieved, expected test email");
     } else {
         test:assertFail("Failed to retrieve email created during testing.");
+    }
+
+    PublicEmail|error clone_response = check hubspotClient->/marketing/v3/emails/[cloneEmailId];
+
+    if clone_response is PublicEmail {
+        test:assertFalse(clone_response.id != cloneEmailId, "Error: Incorrect email retrieved, expected cloned email");
+    } else {
+        test:assertFail("Failed to retrieve email cloned during testing.");
     }
 }
 
@@ -63,8 +86,9 @@ public function testEmailsEp() returns error? {
     if response is CollectionResponseWithTotalPublicEmailForwardPaging {
         test:assertEquals(response.total, response.results.length());
 
-        // Check that the newly created email above is included
-        test:assertEquals(response.results[response.total - 1].id, testEmailId);
+        // Check that the newly created email and clone above is included
+        test:assertEquals(response.results[response.total - 1].id, cloneEmailId);
+        test:assertEquals(response.results[response.total - 2].id, testEmailId);
 
     } else {
         test:assertFail("Failed to get response from /marketing/v3/emails");
