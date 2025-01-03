@@ -94,6 +94,18 @@ public function testEmailsEp() returns error? {
 
 
 @test:Config{dependsOn: [testCreateEmailEp]}
+public function testGetDraftEp() {
+    PublicEmail|error response = hubspotClient->/marketing/v3/emails/[testEmailId]/draft();
+
+    if response is PublicEmail {
+        test:assertTrue(response.id == testEmailId);
+    } else {
+        test:assertFail("Error: Could not get draft for test email");
+    }
+}
+
+
+@test:Config{dependsOn: [testCreateEmailEp]}
 isolated function testListEp() returns error? {
     AggregateEmailStatistics|error response = check hubspotClient->/marketing/v3/emails/statistics/list({}, 
     {
