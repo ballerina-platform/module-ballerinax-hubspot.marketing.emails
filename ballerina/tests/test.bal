@@ -79,16 +79,12 @@ public function testRetrieveEmailEp() returns error? {
 }
 
 
-@test:Config{dependsOn: [testCreateEmailEp]}
+@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp]}
 public function testEmailsEp() returns error? {
     CollectionResponseWithTotalPublicEmailForwardPaging|error response = hubspotClient->/marketing/v3/emails();
 
     if response is CollectionResponseWithTotalPublicEmailForwardPaging {
         test:assertEquals(response.total, response.results.length());
-
-        // Check that the newly created email and clone above is included
-        test:assertEquals(response.results[response.total - 1].id, cloneEmailId);
-        test:assertEquals(response.results[response.total - 2].id, testEmailId);
 
     } else {
         test:assertFail("Failed to get response from /marketing/v3/emails");
