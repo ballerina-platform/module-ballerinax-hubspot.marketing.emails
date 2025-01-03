@@ -68,3 +68,15 @@ isolated function testHistogramEp() returns error? {
         test:assertFail("Failed to get response from /marketing/v3/emails/statistics/histogram");
     }
 }
+
+
+@test:Config
+isolated function testEmailsEp() returns error? {
+    CollectionResponseWithTotalPublicEmailForwardPaging|error response = hubspotClient->/marketing/v3/emails();
+
+    if response is CollectionResponseWithTotalPublicEmailForwardPaging {
+        test:assertEquals(response.total, response.results.length());
+    } else {
+        test:assertFail("Failed to get response from /marketing/v3/emails");
+    }
+}
