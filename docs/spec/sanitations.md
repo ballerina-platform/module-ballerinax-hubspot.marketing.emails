@@ -92,6 +92,33 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  The API does not return on the sendOnPublish field for some emails. This leads to a payload binding error as it is marked as required in the API specification. Removing it from the required list ensures that the types are generated correctly to handle the payload from the response.
 
+6.Change `updatedAt` to `updated` in `components->schemas->VersionPublicEmail->properties`
+- **Original**: 
+```json 
+"VersionPublicEmail" : {
+        "required" : [ "id", "object", "updatedAt", "user" ],
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          ...
+        },
+```
+- **Updated**: 
+```json 
+"VersionPublicEmail" : {
+        "required" : [ "id", "object", "updated", "user" ],
+          "updated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          ...
+        },
+```
+
+- **Reason**:  The API does not return a `updatedAt` field but rather a `updated` field for each result of the results array in the response of the /[emailId]/revisions endpoint. This change ensures that the type is generated correctly to handle the payload from the response.
+
+
 ## OpenAPI cli command
 
 The following command was used to generate the Ballerina client from the OpenAPI specification. The command should be executed from the repository root directory.

@@ -2462,7 +2462,7 @@
         }
       },
       "VersionPublicEmail" : {
-        "required" : [ "id", "object", "updatedAt", "user" ],
+        "required" : [ "id", "object", "updated", "user" ],
         "type" : "object",
         "properties" : {
           "id" : {
@@ -2475,7 +2475,7 @@
           "object" : {
             "$ref" : "#/components/schemas/PublicEmail"
           },
-          "updatedAt" : {
+          "updated" : {
             "type" : "string",
             "format" : "date-time"
           }

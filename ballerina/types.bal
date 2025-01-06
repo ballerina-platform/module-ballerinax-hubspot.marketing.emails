@@ -234,7 +234,7 @@ public type VersionPublicEmail record {
     string id;
     VersionUser user;
     PublicEmail 'object;
-    string updatedAt;
+    string updated;
 };
 
 # Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
