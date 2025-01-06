@@ -107,6 +107,7 @@ public function testCreateDraftEp() {
     }
 }
 
+
 @test:Config{dependsOn: [testCreateDraftEp]}
 public function testResetDraftEp() returns error? {
     http:Response response = check hubspotClient->/[testEmailId]/draft/reset.post();
@@ -117,8 +118,41 @@ public function testResetDraftEp() returns error? {
     // Retrieve the email from the draft endpoint and check that the subject is changed back
     PublicEmail draftResponse = check hubspotClient->/[testEmailId]/draft();
     test:assertNotEquals(draftResponse.subject, draftSubject);
-    
 }
+
+
+@test:Config{dependsOn: [testCreateDraftEp]}
+public function testUpdateandRestoreEps() returns error? {
+    PublicEmail response = check hubspotClient->/[testEmailId].patch({
+        subject: "Updated Subject"
+    });
+
+    // Retrieve the email and check the subject
+    PublicEmail updatedResponse = check hubspotClient->/[testEmailId];
+    test:assertEquals(updatedResponse.subject, "Updated Subject");
+
+    // Update the subject again to make another revision
+    PublicEmail updatedResposne = check hubspotClient->/[testEmailId].patch({
+        subject: "Updated Subject, again!"
+    });
+
+    // Retrieve the email and check the subject
+    PublicEmail twiceUpdatedResponse = check hubspotClient->/[testEmailId];
+    test:assertEquals(twiceUpdatedResponse.subject, "Updated Subject, again!");
+
+    // Get all revisions are fetched using the /revisions endpoint
+    CollectionResponseWithTotalVersionPublicEmail allRevisions = check hubspotClient->/[testEmailId]/revisions();
+
+    // Restore back to the first revision
+    http:Response firstRevisionRestored = check hubspotClient->/[testEmailId]/revisions/[allRevisions.results[1].id]/restore.post({});
+    // Check that the response status is 204
+    test:assertEquals(firstRevisionRestored.statusCode, 204);
+    // Verify that the subject is same as it was in the first revision
+    PublicEmail restoredVersion = check hubspotClient->/[testEmailId];
+    test:assertEquals(restoredVersion.subject, "Updated Subject");   
+
+}
+
 
 @test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]}
 public function testEmailsEp() returns error? {
@@ -188,7 +222,7 @@ isolated function testHistogramEp() returns error? {
     }
 }
 
-@test:Config{dependsOn: [testCloneEmailEp, testResetDraftEp, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
+@test:Config{dependsOn: [testCloneEmailEp, testUpdateandRestoreEps, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
 public function testDeleteEndpoint() returns error? {
     // Delete the created email and the clone
     http:Response|error response_test_email = check hubspotClient->/[testEmailId].delete();
