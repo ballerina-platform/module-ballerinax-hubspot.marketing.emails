@@ -79,14 +79,44 @@ public function testRetrieveEmailEp() returns error? {
     }
 }
 
+@test:Config{dependsOn: [testCreateEmailEp]}
+public function testCreateDraftEp() {
+    string draftSubject = "New draft subject";
+    PublicEmail|error response = hubspotClient->/marketing/v3/emails/[testEmailId]/draft.patch({
+        subject: draftSubject
+    });
 
-@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp]}
+    // Check that the subject has been updated correctly
+    if response is PublicEmail {
+        test:assertEquals(response.subject, draftSubject);
+    } else {
+        test:assertFail("Failed to create draft");
+    }
+
+    // Get the draft using the get draft endpoint
+    PublicEmail|error draftResponse = hubspotClient->/marketing/v3/emails/[testEmailId]/draft();
+
+    // Retrieve the original email
+    PublicEmail|error originalResponse = hubspotClient->/marketing/v3/emails/[testEmailId];
+
+    // Assert that the subject is different in draft
+    if draftResponse is PublicEmail && originalResponse is PublicEmail {
+        test:assertNotEquals(draftResponse, originalResponse);
+    } else {
+        test:assertFail("Failed to retrieve draft and/or email");
+    }
+
+
+
+}
+
+
+@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]}
 public function testEmailsEp() returns error? {
     CollectionResponseWithTotalPublicEmailForwardPaging|error response = hubspotClient->/marketing/v3/emails();
 
     if response is CollectionResponseWithTotalPublicEmailForwardPaging {
         test:assertEquals(response.total, response.results.length());
-
     } else {
         test:assertFail("Failed to get response from /marketing/v3/emails");
     }
@@ -149,7 +179,7 @@ isolated function testHistogramEp() returns error? {
     }
 }
 
-@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
+@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
 public function testDeleteEndpoint() returns error? {
     // Delete the created email and the clone
     http:Response|error response_test_email = check hubspotClient->/marketing/v3/emails/[testEmailId].delete();
