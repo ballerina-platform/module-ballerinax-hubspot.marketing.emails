@@ -51,8 +51,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - No content 
-    resource isolated function delete marketing/v3/emails/[string emailId](map<string|string[]> headers = {}, *DeleteMarketingV3EmailsEmailidQueries queries) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}`;
+    resource isolated function delete [string emailId](map<string|string[]> headers = {}, *DeleteEmailidQueries queries) returns http:Response|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -62,8 +62,13 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    resource isolated function get marketing/v3/emails(map<string|string[]> headers = {}, *GetMarketingV3EmailsQueries queries) returns CollectionResponseWithTotalPublicEmailForwardPaging|error {
-        string resourcePath = string `/marketing/v3/emails/`;
+    # Get all marketing emails for a HubSpot account.
+    #
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get .(map<string|string[]> headers = {}, *GetQueries queries) returns CollectionResponseWithTotalPublicEmailForwardPaging|error {
+        string resourcePath = string `/`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -80,8 +85,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/emails/[string emailId](map<string|string[]> headers = {}, *GetMarketingV3EmailsEmailidQueries queries) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}`;
+    resource isolated function get [string emailId](map<string|string[]> headers = {}, *GetEmailidQueries queries) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -92,8 +97,8 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    resource isolated function get marketing/v3/emails/[string emailId]/ab\-test/get\-variation(map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/ab-test/get-variation`;
+    resource isolated function get [string emailId]/ab\-test/get\-variation(map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/ab-test/get-variation`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -107,8 +112,8 @@ public isolated client class Client {
     # + emailId - The marketing email ID.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/emails/[string emailId]/draft(map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/draft`;
+    resource isolated function get [string emailId]/draft(map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/draft`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -123,8 +128,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/emails/[string emailId]/revisions(map<string|string[]> headers = {}, *GetMarketingV3EmailsEmailidRevisionsQueries queries) returns CollectionResponseWithTotalVersionPublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/revisions`;
+    resource isolated function get [string emailId]/revisions(map<string|string[]> headers = {}, *GetEmailidRevisionsQueries queries) returns CollectionResponseWithTotalVersionPublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/revisions`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -140,8 +145,8 @@ public isolated client class Client {
     # + revisionId - The ID of a revision.
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/emails/[string emailId]/revisions/[string revisionId](map<string|string[]> headers = {}) returns VersionPublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}`;
+    resource isolated function get [string emailId]/revisions/[string revisionId](map<string|string[]> headers = {}) returns VersionPublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -155,8 +160,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/emails/statistics/histogram(map<string|string[]> headers = {}, *GetMarketingV3EmailsStatisticsHistogramQueries queries) returns CollectionResponseWithTotalEmailStatisticIntervalNoPaging|error {
-        string resourcePath = string `/marketing/v3/emails/statistics/histogram`;
+    resource isolated function get statistics/histogram(map<string|string[]> headers = {}, *GetStatisticsHistogramQueries queries) returns CollectionResponseWithTotalEmailStatisticIntervalNoPaging|error {
+        string resourcePath = string `/statistics/histogram`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -172,8 +177,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get marketing/v3/emails/statistics/list(map<string|string[]> headers = {}, *GetMarketingV3EmailsStatisticsListQueries queries) returns AggregateEmailStatistics|error {
-        string resourcePath = string `/marketing/v3/emails/statistics/list`;
+    resource isolated function get statistics/list(map<string|string[]> headers = {}, *GetStatisticsListQueries queries) returns AggregateEmailStatistics|error {
+        string resourcePath = string `/statistics/list`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -191,8 +196,8 @@ public isolated client class Client {
     # + queries - Queries to be sent with the request 
     # + payload - A marketing email object with properties that should overwrite the corresponding properties of the marketing email. 
     # + return - successful operation 
-    resource isolated function patch marketing/v3/emails/[string emailId](EmailUpdateRequest payload, map<string|string[]> headers = {}, *PatchMarketingV3EmailsEmailidQueries queries) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}`;
+    resource isolated function patch [string emailId](EmailUpdateRequest payload, map<string|string[]> headers = {}, *PatchEmailidQueries queries) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -211,8 +216,8 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + payload - A marketing email object with properties that should overwrite the corresponding properties in the email's current draft. 
     # + return - successful operation 
-    resource isolated function patch marketing/v3/emails/[string emailId]/draft(EmailUpdateRequest payload, map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/draft`;
+    resource isolated function patch [string emailId]/draft(EmailUpdateRequest payload, map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/draft`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -224,8 +229,12 @@ public isolated client class Client {
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 
-    resource isolated function post marketing/v3/emails(EmailCreateRequest payload, map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/`;
+    # Create a new marketing email.
+    #
+    # + headers - Headers to be sent with the request 
+    # + return - successful operation 
+    resource isolated function post .(EmailCreateRequest payload, map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -242,8 +251,8 @@ public isolated client class Client {
     # + emailId - The marketing email ID.
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function post marketing/v3/emails/[string emailId]/draft/reset(map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/draft/reset`;
+    resource isolated function post [string emailId]/draft/reset(map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/draft/reset`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -257,8 +266,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function post marketing/v3/emails/[string emailId]/publish(map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/publish`;
+    resource isolated function post [string emailId]/publish(map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/publish`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -268,8 +277,8 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    resource isolated function post marketing/v3/emails/[string emailId]/revisions/[int revisionId]/restore\-to\-draft(map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore-to-draft`;
+    resource isolated function post [string emailId]/revisions/[int revisionId]/restore\-to\-draft(map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore-to-draft`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -285,8 +294,8 @@ public isolated client class Client {
     # + revisionId - The ID of a revision.
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function post marketing/v3/emails/[string emailId]/revisions/[string revisionId]/restore(map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore`;
+    resource isolated function post [string emailId]/revisions/[string revisionId]/restore(map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -300,8 +309,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function post marketing/v3/emails/[string emailId]/unpublish(map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/marketing/v3/emails/${getEncodedUri(emailId)}/unpublish`;
+    resource isolated function post [string emailId]/unpublish(map<string|string[]> headers = {}) returns http:Response|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/unpublish`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -311,8 +320,8 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    resource isolated function post marketing/v3/emails/ab\-test/create\-variation(AbTestCreateRequestVNext payload, map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/ab-test/create-variation`;
+    resource isolated function post ab\-test/create\-variation(AbTestCreateRequestVNext payload, map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/ab-test/create-variation`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
@@ -328,8 +337,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post marketing/v3/emails/clone(ContentCloneRequestVNext payload, map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/marketing/v3/emails/clone`;
+    resource isolated function post clone(ContentCloneRequestVNext payload, map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/clone`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;

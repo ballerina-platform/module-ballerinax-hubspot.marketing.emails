@@ -14,18 +14,6 @@ public type PublicEmailToDetails record {
     PublicEmailRecipients contactLists?;
 };
 
-# Represents the Queries record for the operation: get-/marketing/v3/emails/statistics/histogram
-public type GetMarketingV3EmailsStatisticsHistogramQueries record {
-    # Filter by email IDs. Only include statistics of emails with these IDs.
-    int[] emailIds?;
-    # The interval to aggregate statistics for.
-    "YEAR"|"QUARTER"|"MONTH"|"WEEK"|"DAY"|"HOUR"|"QUARTER_HOUR"|"MINUTE"|"SECOND" interval?;
-    # The end timestamp of the time span, in ISO8601 representation.
-    string endTimestamp?;
-    # The start timestamp of the time span, in ISO8601 representation.
-    string startTimestamp?;
-};
-
 public type PublicDividerStyleSettings record {
     record {} color?;
     string lineType?;
@@ -99,6 +87,22 @@ public type PublicEmail record {
     boolean sendOnPublish?;
 };
 
+# Represents the Queries record for the operation: get-/{emailId}/revisions
+public type GetEmailidRevisionsQueries record {
+    # The cursor token value to get the previous set of results. You can get this from the `paging.prev.before` JSON property of a paged response containing more results.
+    string before?;
+    # The maximum number of results to return. Default is 100.
+    int:Signed32 'limit?;
+    # The cursor token value to get the next set of results. You can get this from the `paging.next.after` JSON property of a paged response containing more results.
+    string after?;
+};
+
+# Represents the Queries record for the operation: patch-/{emailId}
+public type PatchEmailidQueries record {
+    # Whether to return only results that have been archived.
+    boolean archived?;
+};
+
 # Request body object for creating A/B tests.
 public type AbTestCreateRequestVNext record {
     string variationName;
@@ -106,13 +110,8 @@ public type AbTestCreateRequestVNext record {
     string contentId;
 };
 
-public type EmailStatisticInterval record {
-    Interval interval?;
-    EmailStatisticsData aggregations?;
-};
-
-# Represents the Queries record for the operation: get-/marketing/v3/emails/{emailId}
-public type GetMarketingV3EmailsEmailidQueries record {
+# Represents the Queries record for the operation: get-/{emailId}
+public type GetEmailidQueries record {
     boolean workflowNames?;
     # Whether to return only results that have been archived.
     boolean archived?;
@@ -120,6 +119,11 @@ public type GetMarketingV3EmailsEmailidQueries record {
     # Include statistics with email
     boolean includeStats?;
     string[] includedProperties?;
+};
+
+public type EmailStatisticInterval record {
+    Interval interval?;
+    EmailStatisticsData aggregations?;
 };
 
 # Response object for collections of marketing emails with pagination information.
@@ -233,12 +237,6 @@ public type VersionPublicEmail record {
     string updatedAt;
 };
 
-# Represents the Queries record for the operation: delete-/marketing/v3/emails/{emailId}
-public type DeleteMarketingV3EmailsEmailidQueries record {
-    # Whether to return only results that have been archived.
-    boolean archived?;
-};
-
 # Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
 @display {label: "Connection Config"}
 public type ConnectionConfig record {|
@@ -300,6 +298,18 @@ public type CollectionResponseWithTotalEmailStatisticIntervalNoPaging record {
     EmailStatisticInterval[] results;
 };
 
+# Represents the Queries record for the operation: get-/statistics/list
+public type GetStatisticsListQueries record {
+    # Filter by email IDs. Only include statistics of emails with these IDs.
+    int[] emailIds?;
+    # Specifies which email properties should be returned. All properties will be returned by default.
+    string property?;
+    # The end timestamp of the time span, in ISO8601 representation.
+    string endTimestamp?;
+    # The start timestamp of the time span, in ISO8601 representation.
+    string startTimestamp?;
+};
+
 public type PublicFontStyle record {
     int:Signed32 size?;
     string color?;
@@ -315,10 +325,16 @@ public type Paging record {
     PreviousPage prev?;
 };
 
-# Represents the Queries record for the operation: patch-/marketing/v3/emails/{emailId}
-public type PatchMarketingV3EmailsEmailidQueries record {
-    # Whether to return only results that have been archived.
-    boolean archived?;
+# Represents the Queries record for the operation: get-/statistics/histogram
+public type GetStatisticsHistogramQueries record {
+    # Filter by email IDs. Only include statistics of emails with these IDs.
+    int[] emailIds?;
+    # The interval to aggregate statistics for.
+    "YEAR"|"QUARTER"|"MONTH"|"WEEK"|"DAY"|"HOUR"|"QUARTER_HOUR"|"MINUTE"|"SECOND" interval?;
+    # The end timestamp of the time span, in ISO8601 representation.
+    string endTimestamp?;
+    # The start timestamp of the time span, in ISO8601 representation.
+    string startTimestamp?;
 };
 
 public type PublicEmailStyleSettings record {
@@ -385,28 +401,6 @@ public type PublicEmailTestingDetails record {
     "CLICKS_BY_OPENS"|"CLICKS_BY_DELIVERED"|"OPENS_BY_DELIVERED" abSuccessMetric?;
 };
 
-# Represents the Queries record for the operation: get-/marketing/v3/emails/statistics/list
-public type GetMarketingV3EmailsStatisticsListQueries record {
-    # Filter by email IDs. Only include statistics of emails with these IDs.
-    int[] emailIds?;
-    # Specifies which email properties should be returned. All properties will be returned by default.
-    string property?;
-    # The end timestamp of the time span, in ISO8601 representation.
-    string endTimestamp?;
-    # The start timestamp of the time span, in ISO8601 representation.
-    string startTimestamp?;
-};
-
-# Represents the Queries record for the operation: get-/marketing/v3/emails/{emailId}/revisions
-public type GetMarketingV3EmailsEmailidRevisionsQueries record {
-    # The cursor token value to get the previous set of results. You can get this from the `paging.prev.before` JSON property of a paged response containing more results.
-    string before?;
-    # The maximum number of results to return. Default is 100.
-    int:Signed32 'limit?;
-    # The cursor token value to get the next set of results. You can get this from the `paging.next.after` JSON property of a paged response containing more results.
-    string after?;
-};
-
 public type PublicWebversionDetails record {
     # 
     string domain?;
@@ -425,39 +419,6 @@ public type PublicWebversionDetails record {
     string url?;
     # 
     string expiresAt?;
-};
-
-# Represents the Queries record for the operation: get-/marketing/v3/emails/
-public type GetMarketingV3EmailsQueries record {
-    # Only return emails last updated after the specified time.
-    string updatedAfter?;
-    # Filter by published/draft emails. All emails will be returned if not present.
-    boolean isPublished?;
-    # Specifies which fields to use for sorting results. Valid fields are `name`, `createdAt`, `updatedAt`, `createdBy`, `updatedBy`. `createdAt` will be used by default.
-    string[] sort?;
-    # Only return emails created after the specified time.
-    string createdAfter?;
-    # Email types to be filtered by. Multiple types can be included. All emails will be returned if not present.
-    "AB_EMAIL"|"BATCH_EMAIL"|"LOCALTIME_EMAIL"|"AUTOMATED_AB_EMAIL"|"BLOG_EMAIL"|"BLOG_EMAIL_CHILD"|"RSS_EMAIL"|"RSS_EMAIL_CHILD"|"RESUBSCRIBE_EMAIL"|"OPTIN_EMAIL"|"OPTIN_FOLLOWUP_EMAIL"|"AUTOMATED_EMAIL"|"FEEDBACK_CES_EMAIL"|"FEEDBACK_CUSTOM_EMAIL"|"FEEDBACK_CUSTOM_SURVEY_EMAIL"|"FEEDBACK_NPS_EMAIL"|"FOLLOWUP_EMAIL"|"LEADFLOW_EMAIL"|"SINGLE_SEND_API"|"MARKETING_SINGLE_SEND_API"|"SMTP_TOKEN"|"TICKET_EMAIL"|"MEMBERSHIP_REGISTRATION_EMAIL"|"MEMBERSHIP_PASSWORD_SAVED_EMAIL"|"MEMBERSHIP_PASSWORD_RESET_EMAIL"|"MEMBERSHIP_EMAIL_VERIFICATION_EMAIL"|"MEMBERSHIP_PASSWORDLESS_AUTH_EMAIL"|"MEMBERSHIP_REGISTRATION_FOLLOW_UP_EMAIL"|"MEMBERSHIP_OTP_LOGIN_EMAIL"|"MEMBERSHIP_FOLLOW_UP_EMAIL"|"MEMBERSHIP_VERIFICATION_EMAIL" 'type?;
-    string[] includedProperties?;
-    boolean workflowNames?;
-    # Only return emails created at exactly the specified time.
-    string createdAt?;
-    # Only return emails last updated before the specified time.
-    string updatedBefore?;
-    # Specifies whether to return archived emails. Defaults to `false`.
-    boolean archived?;
-    boolean marketingCampaignNames?;
-    # Include statistics with emails.
-    boolean includeStats?;
-    # The maximum number of results to return. Default is 100.
-    int:Signed32 'limit?;
-    # Only return emails created before the specified time.
-    string createdBefore?;
-    # The cursor token value to get the next set of results. You can get this from the `paging.next.after` JSON property of a paged response containing more results.
-    string after?;
-    # Only return emails last updated at exactly the specified time.
-    string updatedAt?;
 };
 
 public type EmailStatisticsData record {
@@ -530,6 +491,39 @@ public type PublicEmailFromDetails record {
     string replyTo?;
 };
 
+# Represents the Queries record for the operation: get-/
+public type GetQueries record {
+    # Only return emails last updated after the specified time.
+    string updatedAfter?;
+    # Filter by published/draft emails. All emails will be returned if not present.
+    boolean isPublished?;
+    # Specifies which fields to use for sorting results. Valid fields are `name`, `createdAt`, `updatedAt`, `createdBy`, `updatedBy`. `createdAt` will be used by default.
+    string[] sort?;
+    # Only return emails created after the specified time.
+    string createdAfter?;
+    # Email types to be filtered by. Multiple types can be included. All emails will be returned if not present.
+    "AB_EMAIL"|"BATCH_EMAIL"|"LOCALTIME_EMAIL"|"AUTOMATED_AB_EMAIL"|"BLOG_EMAIL"|"BLOG_EMAIL_CHILD"|"RSS_EMAIL"|"RSS_EMAIL_CHILD"|"RESUBSCRIBE_EMAIL"|"OPTIN_EMAIL"|"OPTIN_FOLLOWUP_EMAIL"|"AUTOMATED_EMAIL"|"FEEDBACK_CES_EMAIL"|"FEEDBACK_CUSTOM_EMAIL"|"FEEDBACK_CUSTOM_SURVEY_EMAIL"|"FEEDBACK_NPS_EMAIL"|"FOLLOWUP_EMAIL"|"LEADFLOW_EMAIL"|"SINGLE_SEND_API"|"MARKETING_SINGLE_SEND_API"|"SMTP_TOKEN"|"TICKET_EMAIL"|"MEMBERSHIP_REGISTRATION_EMAIL"|"MEMBERSHIP_PASSWORD_SAVED_EMAIL"|"MEMBERSHIP_PASSWORD_RESET_EMAIL"|"MEMBERSHIP_EMAIL_VERIFICATION_EMAIL"|"MEMBERSHIP_PASSWORDLESS_AUTH_EMAIL"|"MEMBERSHIP_REGISTRATION_FOLLOW_UP_EMAIL"|"MEMBERSHIP_OTP_LOGIN_EMAIL"|"MEMBERSHIP_FOLLOW_UP_EMAIL"|"MEMBERSHIP_VERIFICATION_EMAIL" 'type?;
+    string[] includedProperties?;
+    boolean workflowNames?;
+    # Only return emails created at exactly the specified time.
+    string createdAt?;
+    # Only return emails last updated before the specified time.
+    string updatedBefore?;
+    # Specifies whether to return archived emails. Defaults to `false`.
+    boolean archived?;
+    boolean marketingCampaignNames?;
+    # Include statistics with emails.
+    boolean includeStats?;
+    # The maximum number of results to return. Default is 100.
+    int:Signed32 'limit?;
+    # Only return emails created before the specified time.
+    string createdBefore?;
+    # The cursor token value to get the next set of results. You can get this from the `paging.next.after` JSON property of a paged response containing more results.
+    string after?;
+    # Only return emails last updated at exactly the specified time.
+    string updatedAt?;
+};
+
 # Request body object for cloning marketing emails.
 public type ContentCloneRequestVNext record {
     # Name of the cloned email.
@@ -554,6 +548,12 @@ public type NextPage record {
 public type ApiKeysConfig record {|
     string private\-app\-legacy;
 |};
+
+# Represents the Queries record for the operation: delete-/{emailId}
+public type DeleteEmailidQueries record {
+    # Whether to return only results that have been archived.
+    boolean archived?;
+};
 
 # Data structure representing the content of the email.
 public type PublicEmailContent record {
