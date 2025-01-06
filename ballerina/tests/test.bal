@@ -29,6 +29,7 @@ final int days = 40;
 
 string testEmailId = "";
 string cloneEmailId = "";
+string draftSubject = "New draft subject";
 
 @test:Config
 public function testCreateEmailEp() returns error? {
@@ -81,7 +82,6 @@ public function testRetrieveEmailEp() returns error? {
 
 @test:Config{dependsOn: [testCreateEmailEp]}
 public function testCreateDraftEp() {
-    string draftSubject = "New draft subject";
     PublicEmail|error response = hubspotClient->/marketing/v3/emails/[testEmailId]/draft.patch({
         subject: draftSubject
     });
@@ -105,11 +105,20 @@ public function testCreateDraftEp() {
     } else {
         test:assertFail("Failed to retrieve draft and/or email");
     }
-
-
-
 }
 
+@test:Config{dependsOn: [testCreateDraftEp]}
+public function testResetDraftEp() returns error? {
+    http:Response response = check hubspotClient->/marketing/v3/emails/[testEmailId]/draft/reset.post();
+
+    // Assert that the status code is 204
+    test:assertEquals(response.statusCode, 204);
+
+    // Retrieve the email from the draft endpoint and check that the subject is changed back
+    PublicEmail draftResponse = check hubspotClient->/marketing/v3/emails/[testEmailId]/draft();
+    test:assertNotEquals(draftResponse.subject, draftSubject);
+    
+}
 
 @test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]}
 public function testEmailsEp() returns error? {
@@ -179,7 +188,7 @@ isolated function testHistogramEp() returns error? {
     }
 }
 
-@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
+@test:Config{dependsOn: [testCloneEmailEp, testResetDraftEp, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
 public function testDeleteEndpoint() returns error? {
     // Delete the created email and the clone
     http:Response|error response_test_email = check hubspotClient->/marketing/v3/emails/[testEmailId].delete();
