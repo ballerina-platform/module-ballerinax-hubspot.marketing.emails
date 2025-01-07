@@ -782,7 +782,7 @@
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }, {
           "name" : "createdAfter",
@@ -793,7 +793,7 @@
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }, {
           "name" : "createdBefore",
@@ -804,7 +804,7 @@
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }, {
           "name" : "updatedAt",
@@ -815,7 +815,7 @@
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }, {
           "name" : "updatedAfter",
@@ -826,7 +826,7 @@
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }, {
           "name" : "updatedBefore",
@@ -837,7 +837,7 @@
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }, {
           "name" : "sort",
@@ -1491,7 +1491,7 @@
           "publishDate" : {
             "type" : "string",
             "description" : "The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails.",
-            "format" : "date-time",
+            "format" : "datetime",
             "example" : "2020-11-30T18:44:20.387+00:00"
           },
           "isTransactional" : {
@@ -1533,7 +1533,7 @@
           "createdAt" : {
             "type" : "string",
             "description" : "The date and time of the email's creation, in ISO8601 representation.",
-            "format" : "date-time",
+            "format" : "datetime",
             "example" : "2020-11-30T18:43:17.136+00:00"
           },
           "stats" : {
@@ -1564,7 +1564,7 @@
           "updatedAt" : {
             "type" : "string",
             "description" : "The date and time of the last update to the email, in ISO8601 representation.",
-            "format" : "date-time",
+            "format" : "datetime",
             "example" : "2020-11-30T18:44:20.384+00:00"
           },
           "rssData" : {
@@ -1573,7 +1573,7 @@
           "publishedAt" : {
             "type" : "string",
             "description" : "The date and time the email was published at, in ISO8601 representation.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "publishedById" : {
             "type" : "string"
@@ -1600,7 +1600,7 @@
           },
           "deletedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "name" : {
             "type" : "string",
@@ -1946,7 +1946,7 @@
           "publishDate" : {
             "type" : "string",
             "description" : "The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "language" : {
             "type" : "string",
@@ -2223,7 +2223,7 @@
           "publishDate" : {
             "type" : "string",
             "description" : "The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails.",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "language" : {
             "type" : "string",
@@ -2477,7 +2477,7 @@
           },
           "updated" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         },
         "description" : "Model definition for a marketing email version. Contains metadata describing the version of the marketing email. It can be used to view edit history of a marketing email."
@@ -2819,7 +2819,7 @@
           "expiresAt" : {
             "type" : "string",
             "description" : "",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },
@@ -3013,11 +3013,11 @@
         "properties" : {
           "start" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           },
           "end" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "datetime"
           }
         }
       },

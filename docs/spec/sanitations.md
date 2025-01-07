@@ -9,7 +9,6 @@ This document records the sanitation done on top of the official OpenAPI specifi
 The OpenAPI specification is obtained from [Hubspot Github Public API Spec Collection](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Emails/Rollouts/145892/v3/marketingEmails.json). \
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
 
-[//]: # (TODO: Add sanitation details)
 1.Change the `url` property of the servers object
 - **Original**: 
 ```https://api.hubspot.com```
@@ -117,6 +116,18 @@ These changes are done in order to improve the overall usability, and as workaro
 ```
 
 - **Reason**:  The API does not return a `updatedAt` field but rather a `updated` field for each result of the results array in the response of the /[emailId]/revisions endpoint. This change ensures that the type is generated correctly to handle the payload from the response.
+
+7.Change `"date-time"` to `"datetime"` throughout the specification
+- **Original**: 
+```json 
+    "format": "date-time"
+```
+- **Updated**: 
+```json 
+    "format": "datetime"
+```
+
+- **Reason**:  The specification originally uses `"date-time"` which is unsupported by the openapi generator tool. This change to `"datetime"` ensures it is handled correctly.
 
 
 ## OpenAPI cli command
