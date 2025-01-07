@@ -1,15 +1,11 @@
 import ballerina/http;
 import ballerina/oauth2;
-// import ballerina/io;
-import ballerina/os;
 import ballerina/test;
 import ballerina/time;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
-
-configurable boolean isServerLocal = os:getEnv("IsServerLocal") == "true";
 
 OAuth2RefreshTokenGrantConfig auth = {
     clientId: clientId,
@@ -19,7 +15,7 @@ OAuth2RefreshTokenGrantConfig auth = {
 };
 
 ConnectionConfig config = {auth: auth};
-final string serviceURL = isServerLocal ? "localhost:8080" : "https://api.hubapi.com/marketing/v3/emails";
+final string serviceURL = "https://api.hubapi.com/marketing/v3/emails";
 final Client hubspotClient = check new Client(config, serviceURL);
 
 // Change this value and test
