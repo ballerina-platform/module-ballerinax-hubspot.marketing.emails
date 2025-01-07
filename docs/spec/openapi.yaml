@@ -15,7 +15,7 @@
     "x-hubspot-introduction" : "Use the marketing email API to create, manage, and retrieve details about marketing emails. You can also this use API to retrieve statistics related to email sends, similar to what you can see in HubSpot."
   },
   "servers" : [ {
-    "url" : "https://api.hubapi.com"
+    "url" : "https://api.hubapi.com/marketing/v3/emails"
   } ],
   "tags" : [ {
     "name" : "Statistics"
