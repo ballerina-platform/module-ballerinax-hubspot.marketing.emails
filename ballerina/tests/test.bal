@@ -1,31 +1,29 @@
-import ballerina/test;
+import ballerina/http;
 import ballerina/oauth2;
 // import ballerina/io;
 import ballerina/os;
+import ballerina/test;
 import ballerina/time;
-import ballerina/http;
-
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
-configurable string refreshToken = ?; 
+configurable string refreshToken = ?;
 
 configurable boolean isServerLocal = os:getEnv("IsServerLocal") == "true";
 
 OAuth2RefreshTokenGrantConfig auth = {
-       clientId: clientId,
-       clientSecret: clientSecret,
-       refreshToken: refreshToken,
-       credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
-   };
+    clientId: clientId,
+    clientSecret: clientSecret,
+    refreshToken: refreshToken,
+    credentialBearer: oauth2:POST_BODY_BEARER // this line should be added to create auth object.
+};
 
-ConnectionConfig config = {auth : auth};
+ConnectionConfig config = {auth: auth};
 final string serviceURL = isServerLocal ? "localhost:8080" : "https://api.hubapi.com/marketing/v3/emails";
 final Client hubspotClient = check new Client(config, serviceURL);
 
 // Change this value and test
 final int days = 40;
-
 
 string testEmailId = "";
 string cloneEmailId = "";
@@ -43,10 +41,10 @@ public function testCreateEmailEp() returns error? {
     } else {
         test:assertFail("Failed to create new email");
     }
-    
+
 }
 
-@test:Config{dependsOn: [testCreateEmailEp]}
+@test:Config {dependsOn: [testCreateEmailEp]}
 public function testCloneEmailEp() returns error? {
     PublicEmail|error response = check hubspotClient->/clone.post({
         id: testEmailId,
@@ -60,8 +58,7 @@ public function testCloneEmailEp() returns error? {
     }
 }
 
-
-@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp]}
+@test:Config {dependsOn: [testCreateEmailEp, testCloneEmailEp]}
 public function testRetrieveEmailEp() returns error? {
     PublicEmail|error response = check hubspotClient->/[testEmailId];
 
@@ -80,7 +77,7 @@ public function testRetrieveEmailEp() returns error? {
     }
 }
 
-@test:Config{dependsOn: [testCreateEmailEp]}
+@test:Config {dependsOn: [testCreateEmailEp]}
 public function testCreateDraftEp() {
     PublicEmail|error response = hubspotClient->/[testEmailId]/draft.patch({
         subject: draftSubject
@@ -107,8 +104,7 @@ public function testCreateDraftEp() {
     }
 }
 
-
-@test:Config{dependsOn: [testCreateDraftEp]}
+@test:Config {dependsOn: [testCreateDraftEp]}
 public function testResetDraftEp() returns error? {
     http:Response response = check hubspotClient->/[testEmailId]/draft/reset.post();
 
@@ -120,8 +116,7 @@ public function testResetDraftEp() returns error? {
     test:assertNotEquals(draftResponse.subject, draftSubject);
 }
 
-
-@test:Config{dependsOn: [testCreateDraftEp]}
+@test:Config {dependsOn: [testCreateDraftEp]}
 public function testUpdateandRestoreEps() returns error? {
     PublicEmail response = check hubspotClient->/[testEmailId].patch({
         subject: "Updated Subject"
@@ -149,12 +144,11 @@ public function testUpdateandRestoreEps() returns error? {
     test:assertEquals(firstRevisionRestored.statusCode, 204);
     // Verify that the subject is same as it was in the first revision
     PublicEmail restoredVersion = check hubspotClient->/[testEmailId];
-    test:assertEquals(restoredVersion.subject, "Updated Subject");   
+    test:assertEquals(restoredVersion.subject, "Updated Subject");
 
 }
 
-
-@test:Config{dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]}
+@test:Config {dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]}
 public function testEmailsEp() returns error? {
     CollectionResponseWithTotalPublicEmailForwardPaging|error response = hubspotClient->/();
 
@@ -165,8 +159,7 @@ public function testEmailsEp() returns error? {
     }
 }
 
-
-@test:Config{dependsOn: [testCreateEmailEp]}
+@test:Config {dependsOn: [testCreateEmailEp]}
 public function testGetDraftEp() {
     PublicEmail|error response = hubspotClient->/[testEmailId]/draft();
 
@@ -177,14 +170,14 @@ public function testGetDraftEp() {
     }
 }
 
-
-@test:Config{dependsOn: [testCreateEmailEp]}
+@test:Config {dependsOn: [testCreateEmailEp]}
 isolated function testListEp() returns error? {
-    AggregateEmailStatistics|error response = check hubspotClient->/statistics/list({}, 
-    {
-        startTimestamp: time:utcToString(time:utcAddSeconds(time:utcNow(), -86400*days)),
-        endTimestamp: time:utcToString(time:utcNow())
-    });
+    AggregateEmailStatistics|error response = check hubspotClient->/statistics/list({},
+        {
+            startTimestamp: time:utcToString(time:utcAddSeconds(time:utcNow(), -86400 * days)),
+            endTimestamp: time:utcToString(time:utcNow())
+        }
+    );
 
     if response is AggregateEmailStatistics {
         // Check that each part of the response response is not null
@@ -196,16 +189,16 @@ isolated function testListEp() returns error? {
     }
 }
 
-
-@test:Config{dependsOn: [testCreateEmailEp]}
+@test:Config {dependsOn: [testCreateEmailEp]}
 isolated function testHistogramEp() returns error? {
     CollectionResponseWithTotalEmailStatisticIntervalNoPaging|error response = check
-    hubspotClient->/statistics/histogram({}, 
-    {
-        startTimestamp: time:utcToString(time:utcAddSeconds(time:utcNow(), -86400*days)),
-        endTimestamp: time:utcToString(time:utcNow()),
-        interval: "DAY"
-    });
+    hubspotClient->/statistics/histogram({},
+        {
+            startTimestamp: time:utcToString(time:utcAddSeconds(time:utcNow(), -86400 * days)),
+            endTimestamp: time:utcToString(time:utcNow()),
+            interval: "DAY"
+        }
+    );
 
     if response is CollectionResponseWithTotalEmailStatisticIntervalNoPaging {
         // If there are no emails sent within the time span, the response will be of length 1
@@ -222,7 +215,7 @@ isolated function testHistogramEp() returns error? {
     }
 }
 
-@test:Config{dependsOn: [testCloneEmailEp, testUpdateandRestoreEps, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
+@test:Config {dependsOn: [testCloneEmailEp, testUpdateandRestoreEps, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
 public function testDeleteEndpoint() returns error? {
     // Delete the created email and the clone
     http:Response|error response_test_email = check hubspotClient->/[testEmailId].delete();
