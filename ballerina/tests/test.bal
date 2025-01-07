@@ -31,77 +31,59 @@ string draftSubject = "New draft subject";
 
 @test:Config
 public function testCreateEmailEp() returns error? {
-    PublicEmail|error response = check hubspotClient->/.post({
+    // Create a new email. Will throw error if the response type is not PublicEmail
+    PublicEmail response = check hubspotClient->/.post({
         name: "Test email using API",
         subject: "Marketing Email using API!"
     });
 
-    if response is PublicEmail {
-        testEmailId = response.id;
-    } else {
-        test:assertFail("Failed to create new email");
-    }
-
+    // Store the id of the created email for use in other testcases
+    testEmailId = response.id;
 }
 
 @test:Config {dependsOn: [testCreateEmailEp]}
 public function testCloneEmailEp() returns error? {
-    PublicEmail|error response = check hubspotClient->/clone.post({
+    // Clone the email created in testCreateEmailEp testcase.
+    // Will throw an error if return type does not match PublicEmail
+    PublicEmail response = check hubspotClient->/clone.post({
         id: testEmailId,
         cloneName: "Cloned Email"
     });
 
-    if response is PublicEmail {
-        cloneEmailId = response.id;
-    } else {
-        test:assertFail("Failed to clone new email");
-    }
+    // Store the cloned email's id for use in other testcases
+    cloneEmailId = response.id;
 }
 
 @test:Config {dependsOn: [testCreateEmailEp, testCloneEmailEp]}
 public function testRetrieveEmailEp() returns error? {
-    PublicEmail|error response = check hubspotClient->/[testEmailId];
-
-    if response is PublicEmail {
-        test:assertFalse(response.id != testEmailId, "Error: Incorrect email retrieved, expected test email");
-    } else {
-        test:assertFail("Failed to retrieve email created during testing.");
-    }
-
+    // Retrieve test email and cloned email
+    PublicEmail|error response = hubspotClient->/[testEmailId];
     PublicEmail|error clone_response = check hubspotClient->/[cloneEmailId];
 
-    if clone_response is PublicEmail {
-        test:assertFalse(clone_response.id != cloneEmailId, "Error: Incorrect email retrieved, expected cloned email");
-    } else {
-        test:assertFail("Failed to retrieve email cloned during testing.");
-    }
+    PublicEmail publicEmail = check response.ensureType();
+    PublicEmail clonedEmail = check clone_response.ensureType();
+    test:assertEquals(publicEmail.id, testEmailId);
+    test:assertEquals(clonedEmail.id, cloneEmailId);
 }
 
 @test:Config {dependsOn: [testCreateEmailEp]}
-public function testCreateDraftEp() {
-    PublicEmail|error response = hubspotClient->/[testEmailId]/draft.patch({
+public function testCreateDraftEp() returns error? {
+    // Create a draft of the email
+    PublicEmail response = check hubspotClient->/[testEmailId]/draft.patch({
         subject: draftSubject
     });
 
     // Check that the subject has been updated correctly
-    if response is PublicEmail {
-        test:assertEquals(response.subject, draftSubject);
-    } else {
-        test:assertFail("Failed to create draft");
-    }
+    test:assertEquals(response.subject, draftSubject);
 
     // Get the draft using the get draft endpoint
-    PublicEmail|error draftResponse = hubspotClient->/[testEmailId]/draft();
+    PublicEmail draftResponse = check hubspotClient->/[testEmailId]/draft();
 
     // Retrieve the original email
-    PublicEmail|error originalResponse = hubspotClient->/[testEmailId];
+    PublicEmail originalResponse = check hubspotClient->/[testEmailId];
 
     // Assert that the subject is different in draft
-    if draftResponse is PublicEmail && originalResponse is PublicEmail {
-        test:assertNotEquals(draftResponse, originalResponse);
-    } else {
-        test:assertFail("Failed to retrieve draft and/or email");
-    }
+    test:assertNotEquals(draftResponse.subject, originalResponse.subject);
 }
 
 @test:Config {dependsOn: [testCreateDraftEp]}
@@ -118,6 +100,7 @@ public function testResetDraftEp() returns error? {
 
 @test:Config {dependsOn: [testCreateDraftEp]}
 public function testUpdateandRestoreEps() returns error? {
+    // Update email subject
     PublicEmail response = check hubspotClient->/[testEmailId].patch({
         subject: "Updated Subject"
     });
@@ -140,8 +123,10 @@ public function testUpdateandRestoreEps() returns error? {
 
     // Restore back to the first revision
     http:Response firstRevisionRestored = check hubspotClient->/[testEmailId]/revisions/[allRevisions.results[1].id]/restore.post({});
+
     // Check that the response status is 204
     test:assertEquals(firstRevisionRestored.statusCode, 204);
+
     // Verify that the subject is same as it was in the first revision
     PublicEmail restoredVersion = check hubspotClient->/[testEmailId];
     test:assertEquals(restoredVersion.subject, "Updated Subject");
@@ -150,48 +135,34 @@ public function testUpdateandRestoreEps() returns error? {
 
 @test:Config {dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]}
 public function testEmailsEp() returns error? {
-    CollectionResponseWithTotalPublicEmailForwardPaging|error response = hubspotClient->/();
-
-    if response is CollectionResponseWithTotalPublicEmailForwardPaging {
-        test:assertEquals(response.total, response.results.length());
-    } else {
-        test:assertFail("Failed to get response from ");
-    }
+    CollectionResponseWithTotalPublicEmailForwardPaging response = check hubspotClient->/();
+    test:assertEquals(response.total, response.results.length());
 }
 
 @test:Config {dependsOn: [testCreateEmailEp]}
-public function testGetDraftEp() {
-    PublicEmail|error response = hubspotClient->/[testEmailId]/draft();
-
-    if response is PublicEmail {
-        test:assertTrue(response.id == testEmailId);
-    } else {
-        test:assertFail("Error: Could not get draft for test email");
-    }
+public function testGetDraftEp() returns error? {
+    PublicEmail response = check hubspotClient->/[testEmailId]/draft();
+    test:assertEquals(response.id, testEmailId);
 }
 
 @test:Config {dependsOn: [testCreateEmailEp]}
 isolated function testListEp() returns error? {
-    AggregateEmailStatistics|error response = check hubspotClient->/statistics/list({},
+    AggregateEmailStatistics response = check hubspotClient->/statistics/list({},
         {
             startTimestamp: time:utcToString(time:utcAddSeconds(time:utcNow(), -86400 * days)),
             endTimestamp: time:utcToString(time:utcNow())
         }
     );
 
-    if response is AggregateEmailStatistics {
-        // Check that each part of the response response is not null
-        test:assertTrue(response.aggregate !is ());
-        test:assertTrue(response.campaignAggregations !is ());
-        test:assertTrue(response.emails !is ());
-    } else {
-        test:assertFail("Failed to get response for endpoint /statistics/list");
-    }
+    // Check that each part of the response response is not null
+    test:assertTrue(response.aggregate !is ());
+    test:assertTrue(response.campaignAggregations !is ());
+    test:assertTrue(response.emails !is ());
 }
 
 @test:Config {dependsOn: [testCreateEmailEp]}
 isolated function testHistogramEp() returns error? {
-    CollectionResponseWithTotalEmailStatisticIntervalNoPaging|error response = check
+    CollectionResponseWithTotalEmailStatisticIntervalNoPaging response = check
     hubspotClient->/statistics/histogram({},
         {
             startTimestamp: time:utcToString(time:utcAddSeconds(time:utcNow(), -86400 * days)),
@@ -200,38 +171,26 @@ isolated function testHistogramEp() returns error? {
         }
     );
 
-    if response is CollectionResponseWithTotalEmailStatisticIntervalNoPaging {
-        // If there are no emails sent within the time span, the response will be of length 1
-        // Else it should be of length equal to interval * timespan  + 1
-        // Example: Length of results array should be 24*3 if the interval is HOUR and
-        // duration between startTimestamp and endTimestamp is 3 days
-        // In this case it should be equal to number of days + 1
-        if (response.results.length() > 1) {
-            test:assertEquals(response.results.length(), days + 1);
-            test:assertEquals(response.total, days + 1);
-        }
-    } else {
-        test:assertFail("Failed to get response from /statistics/histogram");
+    // If there are no emails sent within the time span, the response will be of length 1
+    // Else it should be of length equal to interval * timespan  + 1
+    // Example: Length of results array should be 24*3 if the interval is HOUR and
+    // duration between startTimestamp and endTimestamp is 3 days
+    // In this case it should be equal to number of days + 1
+    if response.results.length() > 1 {
+        test:assertEquals(response.results.length(), days + 1);
+        test:assertEquals(response.total, days + 1);
     }
 }
 
 @test:Config {dependsOn: [testCloneEmailEp, testUpdateandRestoreEps, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
 public function testDeleteEndpoint() returns error? {
-    // Delete the created email and the clone
-    http:Response|error response_test_email = check hubspotClient->/[testEmailId].delete();
-    http:Response|error response_clone_email = check hubspotClient->/[cloneEmailId].delete();
+    // Delete the created email and its clone
+    http:Response response_test_email = check hubspotClient->/[testEmailId].delete();
+    http:Response response_clone_email = check hubspotClient->/[cloneEmailId].delete();
 
-    if response_test_email is http:Response {
-        // Check if the response status is 204
-        test:assertEquals(response_test_email.statusCode, 204);
-    } else {
-        test:assertFail("Failed to delete test email.");
-    }
+    // Check if the response status is 204
+    test:assertEquals(response_test_email.statusCode, 204);
 
-    if response_clone_email is http:Response {
-        // Check if the response status is 204
-        test:assertEquals(response_clone_email.statusCode, 204);
-    } else {
-        test:assertFail("Failed to delete test email.");
-    }
+    // Check if the response status is 204
+    test:assertEquals(response_clone_email.statusCode, 204);
 }
