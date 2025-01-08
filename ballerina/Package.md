@@ -122,8 +122,6 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 ## Quickstart
 
-[//]: # "TODO: Add a quickstart guide to demonstrate a basic functionality of the module, including sample code snippets."
-
 To use the `HubSpot Marketing Emails` connector in your Ballerina application, update the `.bal` file as follows:
 
 ### Step 1: Import the module
@@ -161,7 +159,7 @@ import ballerina/oauth2;
         }
     };
 
-    final hsmemails:Client hsmevents = check new (hsmeventsConfig, "https://api.hubapi.com");
+    final hsmemails:Client hsmevents = check new (hsmeventsConfig, "https://api.hubapi.com/marketing/v3/emails");
     ```
 
 ### Step 3: Invoke the connector operation
