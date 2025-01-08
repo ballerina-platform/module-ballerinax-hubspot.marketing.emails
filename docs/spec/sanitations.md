@@ -9,7 +9,7 @@ This document records the sanitation done on top of the official OpenAPI specifi
 The OpenAPI specification is obtained from [Hubspot Github Public API Spec Collection](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Emails/Rollouts/145892/v3/marketingEmails.json). \
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
 
-1.Change the `url` property of the servers object
+1. Change the `url` property of the servers object
 - **Original**: 
 ```https://api.hubspot.com```
 
@@ -18,7 +18,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  This change of adding the common prefix `marketing/v3/emails` to the base url makes it easier to access endpoints using the client.
 
-2.Update the API Paths
+2. Update the API Paths
 - **Original**: Paths included common prefix above in each endpoint. (eg: ```/marketing/v3/emails/clone```)
 
 - **Updated**: Common prefix is now removed from the endpoints as it is included in the base URL.
@@ -27,7 +27,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  This change simplifies the API p aths, making them shorter and more readable.
 
-3.Add `"format":"float"` to `components->statistics->EmailStatisticsData->properties->ratios->additionalProperties`
+3. Add `"format":"float"` to `components->statistics->EmailStatisticsData->properties->ratios->additionalProperties`
 - **Original**: 
 ```json
 "ratios" : {
@@ -53,7 +53,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  This change ensures that the type is generated correctly to handle the payload from the response.
 
-4.Change `"type":"object"` to `"type":"string"` in `components->schemas->PublicButtonStyleSettings->properties->backgroundColor`
+4. Change `"type":"object"` to `"type":"string"` in `components->schemas->PublicButtonStyleSettings->properties->backgroundColor`
 - **Original**: 
 ```json
 "backgroundColor" : {
@@ -71,7 +71,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  The API returns backgroundColor as a string (eg: "#FF234A"). This change ensures that the type is generated correctly to handle the payload from the response.
 
-5.Remove `sendOnPublish` from the required list in `components->schemas->PublicEmail`
+5. Remove `sendOnPublish` from the required list in `components->schemas->PublicEmail`
 - **Original**: 
 ```json
       "PublicEmail" : {
@@ -91,7 +91,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  The API does not return on the sendOnPublish field for some emails. This leads to a payload binding error as it is marked as required in the API specification. Removing it from the required list ensures that the types are generated correctly to handle the payload from the response.
 
-6.Change `updatedAt` to `updated` in `components->schemas->VersionPublicEmail->properties`
+6. Change `updatedAt` to `updated` in `components->schemas->VersionPublicEmail->properties`
 - **Original**: 
 ```json 
 "VersionPublicEmail" : {
@@ -117,7 +117,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  The API does not return a `updatedAt` field but rather a `updated` field for each result of the results array in the response of the /[emailId]/revisions endpoint. This change ensures that the type is generated correctly to handle the payload from the response.
 
-7.Change `"date-time"` to `"datetime"` throughout the specification
+7. Change `"date-time"` to `"datetime"` throughout the specification
 - **Original**: 
 ```json 
     "format": "date-time"
