@@ -53,7 +53,9 @@ public function testCreateEmailEp() returns error? {
     testEmailId = response.id;
 }
 
-@test:Config {dependsOn: [testCreateEmailEp]}
+@test:Config {
+    dependsOn: [testCreateEmailEp]
+}
 public function testCloneEmailEp() returns error? {
     // Clone the email created in testCreateEmailEp testcase.
     // Will throw an error if return type does not match PublicEmail
@@ -66,7 +68,9 @@ public function testCloneEmailEp() returns error? {
     cloneEmailId = response.id;
 }
 
-@test:Config {dependsOn: [testCreateEmailEp, testCloneEmailEp]}
+@test:Config {
+    dependsOn: [testCreateEmailEp, testCloneEmailEp]
+}
 public function testRetrieveEmailEp() returns error? {
     // Retrieve test email and cloned email
     PublicEmail response = check hubspotClient->/[testEmailId];
@@ -75,7 +79,9 @@ public function testRetrieveEmailEp() returns error? {
     test:assertEquals(clone_response.id, cloneEmailId);
 }
 
-@test:Config {dependsOn: [testCreateEmailEp]}
+@test:Config {
+    dependsOn: [testCreateEmailEp]
+}
 public function testCreateDraftEp() returns error? {
     // Create a draft of the email
     PublicEmail response = check hubspotClient->/[testEmailId]/draft.patch({
@@ -95,7 +101,9 @@ public function testCreateDraftEp() returns error? {
     test:assertNotEquals(draftResponse.subject, originalResponse.subject);
 }
 
-@test:Config {dependsOn: [testCreateDraftEp]}
+@test:Config {
+    dependsOn: [testCreateDraftEp]
+}
 public function testResetDraftEp() returns error? {
     http:Response response = check hubspotClient->/[testEmailId]/draft/reset.post();
 
@@ -107,7 +115,9 @@ public function testResetDraftEp() returns error? {
     test:assertNotEquals(draftResponse.subject, draftSubject);
 }
 
-@test:Config {dependsOn: [testCreateDraftEp]}
+@test:Config {
+    dependsOn: [testCreateDraftEp]
+}
 public function testUpdateandRestoreEps() returns error? {
     // Update email subject
     PublicEmail response = check hubspotClient->/[testEmailId].patch({
@@ -142,19 +152,25 @@ public function testUpdateandRestoreEps() returns error? {
 
 }
 
-@test:Config {dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]}
+@test:Config {
+    dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]
+}
 public function testEmailsEp() returns error? {
     CollectionResponseWithTotalPublicEmailForwardPaging response = check hubspotClient->/();
     test:assertEquals(response.total, response.results.length());
 }
 
-@test:Config {dependsOn: [testCreateEmailEp]}
+@test:Config {
+    dependsOn: [testCreateEmailEp]
+}
 public function testGetDraftEp() returns error? {
     PublicEmail response = check hubspotClient->/[testEmailId]/draft();
     test:assertEquals(response.id, testEmailId);
 }
 
-@test:Config {dependsOn: [testCreateEmailEp]}
+@test:Config {
+    dependsOn: [testCreateEmailEp]
+}
 isolated function testListEp() returns error? {
     AggregateEmailStatistics response = check hubspotClient->/statistics/list({},
         {
@@ -169,7 +185,9 @@ isolated function testListEp() returns error? {
     test:assertTrue(response.emails !is ());
 }
 
-@test:Config {dependsOn: [testCreateEmailEp]}
+@test:Config {
+    dependsOn: [testCreateEmailEp]
+}
 isolated function testHistogramEp() returns error? {
     CollectionResponseWithTotalEmailStatisticIntervalNoPaging response = check
     hubspotClient->/statistics/histogram({},
@@ -191,7 +209,9 @@ isolated function testHistogramEp() returns error? {
     }
 }
 
-@test:Config {dependsOn: [testCloneEmailEp, testUpdateandRestoreEps, testEmailsEp, testRetrieveEmailEp, testHistogramEp]}
+@test:Config {
+    dependsOn: [testCloneEmailEp, testUpdateandRestoreEps, testEmailsEp, testRetrieveEmailEp, testHistogramEp]
+}
 public function testDeleteEndpoint() returns error? {
     // Delete the created email and its clone
     http:Response response_test_email = check hubspotClient->/[testEmailId].delete();
