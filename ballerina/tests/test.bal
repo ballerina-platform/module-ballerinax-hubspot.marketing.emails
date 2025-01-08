@@ -69,13 +69,10 @@ public function testCloneEmailEp() returns error? {
 @test:Config {dependsOn: [testCreateEmailEp, testCloneEmailEp]}
 public function testRetrieveEmailEp() returns error? {
     // Retrieve test email and cloned email
-    PublicEmail|error response = hubspotClient->/[testEmailId];
-    PublicEmail|error clone_response = check hubspotClient->/[cloneEmailId];
-
-    PublicEmail publicEmail = check response.ensureType();
-    PublicEmail clonedEmail = check clone_response.ensureType();
-    test:assertEquals(publicEmail.id, testEmailId);
-    test:assertEquals(clonedEmail.id, cloneEmailId);
+    PublicEmail response = check hubspotClient->/[testEmailId];
+    PublicEmail clone_response = check hubspotClient->/[cloneEmailId];
+    test:assertEquals(response.id, testEmailId);
+    test:assertEquals(clone_response.id, cloneEmailId);
 }
 
 @test:Config {dependsOn: [testCreateEmailEp]}
