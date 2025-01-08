@@ -183,6 +183,6 @@ public function main() returns error? {
 
 ## Examples
 
-The `HubSpot Marketing Events` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.marketing.emails/tree/main/examples/), covering the following use cases:
+The `Hubspot Marketing Emails` connector provides practical examples illustrating usage in various scenarios. Explore these examples, covering use cases:
 
-[//]: # "TODO: Add examples"
+1. [Bulk Change Reply To Email](./BulkChangeReplyEmail/) - Change the Reply To and Custom Reply To email address of all draft emails
