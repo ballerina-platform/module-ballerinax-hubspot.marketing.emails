@@ -181,3 +181,5 @@ public function main() returns error? {
 The `Hubspot Marketing Emails` connector provides practical examples illustrating usage in various scenarios. Explore these examples, covering use cases:
 
 1. [Bulk Change Reply To Email](../examples/bulk_change_reply_email/) - Change the Reply To and Custom Reply To email address of all draft emails
+
+2. [Marketing Email Statistics Logger](../examples/email_stat_logger/) - Retrieve and log the statistics of marketing emails during a specific time period.
