@@ -31,8 +31,7 @@ OAuth2RefreshTokenGrantConfig auth = {
 };
 
 ConnectionConfig config = {auth: auth};
-final string serviceURL = "https://api.hubapi.com/marketing/v3/emails";
-final Client hubspotClient = check new Client(config, serviceURL);
+final Client hubspotClient = check new (config);
 
 // Change this value and test
 final int days = 40;

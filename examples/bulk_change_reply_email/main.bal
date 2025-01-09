@@ -32,10 +32,7 @@ public function main() returns error? {
         credentialBearer: oauth2:POST_BODY_BEARER // this line should be added to create auth object.
     };
 
-    hsmemails:ConnectionConfig config = {auth};
-
-    // Initialize the Hubspot Marketing Email Client
-    hsmemails:Client hubspotMarketingEmailClient = check new (config);
+    hsmemails:Client hubspotMarketingEmailClient = check new ({auth});
 
     // Get all marketing emails
     hsmemails:CollectionResponseWithTotalPublicEmailForwardPaging emailsResponse = check hubspotMarketingEmailClient->/({});

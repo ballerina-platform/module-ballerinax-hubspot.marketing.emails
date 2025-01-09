@@ -32,10 +32,8 @@ public function main() returns error? {
         credentialBearer: oauth2:POST_BODY_BEARER // this line should be added to create auth object.
     };
 
-    hsmemails:ConnectionConfig config = {auth};
-
     // Initialize the Hubspot Marketing Email Client
-    hsmemails:Client hubspotMarketingEmailClient = check new (config);
+    hsmemails:Client hubspotMarketingEmailClient = check new ({auth});
 
     // Change these values
     // Timestamps must be in ISO 8601 format
@@ -50,7 +48,6 @@ public function main() returns error? {
                 startTimestamp,
                 endTimestamp
     });
-
 
     io:println(string `***AGGREGATED STATISTICS FOR THE TIME PERIOD FROM ${startTimestamp} TO ${endTimestamp}`);
 
