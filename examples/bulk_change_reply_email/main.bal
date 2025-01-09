@@ -26,16 +26,16 @@ public function main() returns error? {
 
     // Create the config for authorization to the API
     hsmemails:OAuth2RefreshTokenGrantConfig auth = {
-        clientId: clientId,
-        clientSecret: clientSecret,
-        refreshToken: refreshToken,
+        clientId,
+        clientSecret,
+        refreshToken,
         credentialBearer: oauth2:POST_BODY_BEARER // this line should be added to create auth object.
     };
 
-    hsmemails:ConnectionConfig config = {auth: auth};
+    hsmemails:ConnectionConfig config = {auth};
 
     // Initialize the Hubspot Marketing Email Client
-    hsmemails:Client hubspotMarketingEmailClient = check new hsmemails:Client(config);
+    hsmemails:Client hubspotMarketingEmailClient = check new (config);
 
     // Get all marketing emails
     hsmemails:CollectionResponseWithTotalPublicEmailForwardPaging emailsResponse = check hubspotMarketingEmailClient->/({});
@@ -55,7 +55,7 @@ public function main() returns error? {
                     customReplyTo: newReplyToEmailAddress
                 }
             });
-            io:println("Updated email ", updated.id, " replyTo and customReplyTo address: ", updated.'from.replyTo);
+            io:println(string `Updated email ${updated.id} replyTo and customReplyTo address: ${newReplyToEmailAddress}`);
         }
     }
 }
