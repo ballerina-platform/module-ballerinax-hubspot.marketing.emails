@@ -10,7 +10,7 @@
 
 [HubSpot](https://www.hubspot.com) is an AI-powered customer relationship management (CRM) platform. 
 
-The `ballerinax/hubspot.marketing.emails` package offers APIs to connect and interact with [HubSpot Marketing Emails API](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails) endpoints, specifically based on [OpenAPI specification for HubSpot Marketing Emails API v3](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/Marketing/Marketing%20Emails/Rollouts/145892/v3/marketingEmails.json).
+The `ballerinax/hubspot.marketing.emails` package offers APIs to connect and interact with the [HubSpot Marketing Emails API](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
 
 Using this API, users can develop applications easily that enables you to track marketing emails.
 
@@ -24,16 +24,15 @@ If you have an account already, go to the [HubSpot developer portal](https://app
 
 If you don't have a HubSpot Developer Account you can sign up to a free account [here](https://developers.hubspot.com/get-started)
 
-### Step 2 (Optional): Create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) under your account
+### Step 2 (Optional): Create a Developer Test Account
 
-Within app developer accounts, you can create developer test accounts to test apps and integrations without affecting any real HubSpot data.
+Within app developer accounts, you can create  [developer test account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) under your account to test apps and integrations without affecting any real HubSpot data.
 
 > **Note:** These accounts are only for development and testing purposes. In production you should not use Developer Test Accounts.
 
 1. Go to Test Account section from the left sidebar.
 
    ![Hubspot Developer Portal](./docs/setup/resources/test_acc_1.png)
-
 
 2. Click Create developer test account.
 
@@ -59,7 +58,7 @@ Within app developer accounts, you can create developer test accounts to test ap
 
 2. In the Scopes section, add the following scope for your app using the "Add new scope" button.
 
-   `content`
+   * `content`
 
    ![Hubspot Developer App Add Scopes](./docs/setup/resources/scopes.png )
 
@@ -189,7 +188,7 @@ public function main() returns error? {
 
 The `Hubspot Marketing Emails` connector provides practical examples illustrating usage in various scenarios. Explore these examples, covering use cases:
 
-1. [Bulk Change Reply To Email](./BulkChangeReplyEmail/) - Change the Reply To and Custom Reply To email address of all draft emails
+1. [Bulk Change Reply To Email](./examples/BulkChangeReplyEmail/) - Change the Reply To and Custom Reply To email address of all draft emails
 
 ## Build from the source
 
