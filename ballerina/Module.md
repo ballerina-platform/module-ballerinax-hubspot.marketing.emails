@@ -163,7 +163,7 @@ import ballerina/oauth2;
 
 Now, utilize the available connector operations. A sample usecase is shown below.
 
-#### Create a Marketing Event
+#### Get statistics for Marketing Emails
     
 ```ballerina
 public function main() returns error? {
