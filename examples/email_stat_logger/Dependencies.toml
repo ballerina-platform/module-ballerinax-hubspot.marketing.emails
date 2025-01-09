@@ -301,7 +301,7 @@ modules = [
 
 [[package]]
 org = "wso2"
-name = "MarketingStatLogger"
+name = "email_stat_logger"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
@@ -310,6 +310,6 @@ dependencies = [
 	{org = "ballerinax", name = "hubspot.marketing.emails"}
 ]
 modules = [
-	{org = "wso2", packageName = "MarketingStatLogger", moduleName = "MarketingStatLogger"}
+	{org = "wso2", packageName = "email_stat_logger", moduleName = "email_stat_logger"}
 ]
 
