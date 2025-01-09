@@ -301,7 +301,7 @@ modules = [
 
 [[package]]
 org = "wso2"
-name = "BulkChangeReplyEmail"
+name = "bulk_change_reply_email"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
@@ -310,6 +310,6 @@ dependencies = [
 	{org = "ballerinax", name = "hubspot.marketing.emails"}
 ]
 modules = [
-	{org = "wso2", packageName = "BulkChangeReplyEmail", moduleName = "BulkChangeReplyEmail"}
+	{org = "wso2", packageName = "bulk_change_reply_email", moduleName = "bulk_change_reply_email"}
 ]
 

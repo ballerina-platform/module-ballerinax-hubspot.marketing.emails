@@ -2,7 +2,7 @@
 
 The `ballerinax/hubspot.marketing.emails` connector provides practical examples illustrating usage in various scenarios. Explore these examples, covering use cases:
 
-1. [Bulk Change Reply To Email](./BulkChangeReplyEmail/) - Change the Reply To and Custom Reply To email address of all draft emails
+1. [Bulk Change Reply To Email](./bulk_change_reply_email/) - Change the Reply To and Custom Reply To email address of all draft emails
 
 
 ## Prerequisites

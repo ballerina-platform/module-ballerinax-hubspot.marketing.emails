@@ -47,7 +47,6 @@ public function main() returns error? {
     final string newReplyToEmailAddress = "new_reply_address@example.com";
 
     foreach hsmemails:PublicEmail email in emailsResponse.results {
-        io:println(email.state);
         // Apply the change only to draft emails
         if email.state == "DRAFT" {
             hsmemails:PublicEmail updated = check hubspotMarketingEmailClient->/[email.id].patch({
@@ -56,7 +55,7 @@ public function main() returns error? {
                     customReplyTo: newReplyToEmailAddress
                 }
             });
-            io:println("Updated email ", updated.id, "replyTo and customReplyTo address: ", updated.'from.replyTo);
+            io:println("Updated email ", updated.id, " replyTo and customReplyTo address: ", updated.'from.replyTo);
         }
     }
 }
