@@ -15,13 +15,17 @@
 // under the License.
 
 import ballerina/http;
+import ballerina/os;
 import ballerina/oauth2;
 import ballerina/test;
 import ballerina/time;
 
-configurable string clientId = ?;
+configurable string clientId =  ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
+
+configurable boolean useMockServer = os:getEnv("useMockServer") == "true";
+configurable string serviceUrl = useMockServer ? "http://localhost:8080" : "https://api.hubapi.com/marketing/v3/emails";
 
 OAuth2RefreshTokenGrantConfig auth = {
     clientId: clientId,
@@ -31,7 +35,7 @@ OAuth2RefreshTokenGrantConfig auth = {
 };
 
 ConnectionConfig config = {auth: auth};
-final Client hubspotClient = check new (config);
+final Client hubspotClient = check new (config, serviceUrl);
 
 // Change this value and test
 final int days = 40;
@@ -40,7 +44,9 @@ string testEmailId = "";
 string cloneEmailId = "";
 string draftSubject = "New draft subject";
 
-@test:Config
+@test:Config {
+    groups: ["mock_tests"]
+}
 public function testCreateEmailEp() returns error? {
     // Create a new email. Will throw error if the response type is not PublicEmail
     PublicEmail response = check hubspotClient->/.post({
@@ -53,6 +59,7 @@ public function testCreateEmailEp() returns error? {
 }
 
 @test:Config {
+    groups: ["mock_tests"],
     dependsOn: [testCreateEmailEp]
 }
 public function testCloneEmailEp() returns error? {
@@ -152,7 +159,8 @@ public function testUpdateandRestoreEps() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateEmailEp, testCloneEmailEp, testCreateDraftEp]
+    groups: ["mock_tests"],
+    dependsOn: [testCreateEmailEp, testCloneEmailEp]
 }
 public function testEmailsEp() returns error? {
     CollectionResponseWithTotalPublicEmailForwardPaging response = check hubspotClient->/();
