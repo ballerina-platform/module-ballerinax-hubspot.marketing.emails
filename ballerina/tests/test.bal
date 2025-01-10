@@ -15,7 +15,6 @@
 // under the License.
 
 import ballerina/http;
-import ballerina/os;
 import ballerina/oauth2;
 import ballerina/test;
 import ballerina/time;
@@ -24,8 +23,9 @@ configurable string clientId =  ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
-configurable boolean useMockServer = os:getEnv("useMockServer") == "true";
-configurable string serviceUrl = useMockServer ? "http://localhost:8080" : "https://api.hubapi.com/marketing/v3/emails";
+// isLiveSever is set to false by default, set to true in Config.toml
+configurable boolean isLiveServer = false;
+configurable string serviceUrl = isLiveServer ? "https://api.hubapi.com/marketing/v3/emails" : "http://localhost:8080";
 
 OAuth2RefreshTokenGrantConfig auth = {
     clientId,
@@ -74,7 +74,8 @@ public function testCloneEmailEp() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateEmailEp, testCloneEmailEp]
+    dependsOn: [testCreateEmailEp, testCloneEmailEp],
+    enable: isLiveServer
 }
 public function testRetrieveEmailEp() returns error? {
     // Retrieve test email and cloned email
@@ -85,7 +86,8 @@ public function testRetrieveEmailEp() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateEmailEp]
+    dependsOn: [testCreateEmailEp],
+    enable: isLiveServer
 }
 public function testCreateDraftEp() returns error? {
     // Create a draft of the email
@@ -107,7 +109,8 @@ public function testCreateDraftEp() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateDraftEp]
+    dependsOn: [testCreateDraftEp],
+    enable: isLiveServer
 }
 public function testResetDraftEp() returns error? {
     http:Response response = check hubspotClient->/[testEmailId]/draft/reset.post();
@@ -121,7 +124,8 @@ public function testResetDraftEp() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateDraftEp]
+    dependsOn: [testCreateDraftEp],
+    enable: isLiveServer
 }
 public function testUpdateandRestoreEps() returns error? {
     // Update email subject
@@ -167,7 +171,8 @@ public function testEmailsEp() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateEmailEp]
+    dependsOn: [testCreateEmailEp],
+    enable: isLiveServer
 }
 public function testGetDraftEp() returns error? {
     PublicEmail response = check hubspotClient->/[testEmailId]/draft();
@@ -175,7 +180,8 @@ public function testGetDraftEp() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateEmailEp]
+    dependsOn: [testCreateEmailEp],
+    enable: isLiveServer
 }
 isolated function testListEp() returns error? {
     AggregateEmailStatistics response = check hubspotClient->/statistics/list({},
@@ -192,7 +198,8 @@ isolated function testListEp() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateEmailEp]
+    dependsOn: [testCreateEmailEp],
+    enable: isLiveServer
 }
 isolated function testHistogramEp() returns error? {
     CollectionResponseWithTotalEmailStatisticIntervalNoPaging response = check
@@ -216,7 +223,8 @@ isolated function testHistogramEp() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCloneEmailEp, testUpdateandRestoreEps, testEmailsEp, testRetrieveEmailEp, testHistogramEp]
+    dependsOn: [testCloneEmailEp, testUpdateandRestoreEps, testEmailsEp, testRetrieveEmailEp, testHistogramEp],
+    enable: isLiveServer
 }
 public function testDeleteEndpoint() returns error? {
     // Delete the created email and its clone
