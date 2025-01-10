@@ -16,12 +16,13 @@
 
 import ballerina/http;
 import ballerina/oauth2;
+import ballerina/os;
 import ballerina/test;
 import ballerina/time;
 
-configurable string clientId =  ?;
-configurable string clientSecret = ?;
-configurable string refreshToken = ?;
+final string clientId = os:getEnv("HUBSPOT_CLIENT_ID");
+final string clientSecret = os:getEnv("HUBSPOT_CLIENT_SECRET");
+final string refreshToken = os:getEnv("HUBSPOT_REFRESH_TOKEN");
 
 // isLiveSever is set to false by default, set to true in Config.toml
 configurable boolean isLiveServer = false;
@@ -34,7 +35,24 @@ OAuth2RefreshTokenGrantConfig auth = {
     credentialBearer: oauth2:POST_BODY_BEARER // this line should be added to create auth object.
 };
 
-final Client hubspotClient = check new ({auth}, serviceUrl);
+final Client hubspotClient = check initClient();
+
+isolated function initClient() returns Client|error {
+    if isLiveServer {
+        OAuth2RefreshTokenGrantConfig auth = {
+            clientId: clientId,
+            clientSecret: clientSecret,
+            refreshToken: refreshToken,
+            credentialBearer: oauth2:POST_BODY_BEARER
+        };
+        return check new ({auth}, serviceUrl);
+    }
+    return check new ({
+        auth: {
+            token: "test-token"
+        }
+    }, serviceUrl);
+}
 
 // Change this value and test
 final int days = 40;
