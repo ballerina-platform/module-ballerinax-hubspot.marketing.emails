@@ -155,7 +155,7 @@ import ballerina/oauth2;
         }
     };
 
-    final hsmemails:Client hsmevents = check new (hsmeventsConfig);
+    final hsmemails:Client hsmemailClient = check new (hsmeventsConfig);
     ```
 
 ### Step 3: Invoke the connector operation
@@ -166,7 +166,7 @@ Now, utilize the available connector operations. A sample usecase is shown below
     
 ```ballerina
 public function main() returns error? {
-    hsmemails:AggregateEmailStatistics emailStatistics = check hubspotClient->/marketing/v3/emails/statistics/list({}, 
+    hsmemails:AggregateEmailStatistics emailStatistics = check hsmemailClient->/marketing/v3/emails/statistics/list({}, 
      {
          startTimestamp: "2024-12-12T04:27:02Z",
          endTimestamp: "2024-12-19T04:27:02Z"
