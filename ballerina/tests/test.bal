@@ -19,9 +19,9 @@ import ballerina/oauth2;
 import ballerina/test;
 import ballerina/time;
 
-configurable string clientId = "";
-configurable string clientSecret = "";
-configurable string refreshToken = "";
+configurable string clientId = "dummyID";
+configurable string clientSecret = "dummySecret";
+configurable string refreshToken = "dummyToken";
 
 // isLiveSever is set to false by default, set to true in Config.toml
 configurable boolean isLiveServer = false;
