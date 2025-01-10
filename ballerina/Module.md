@@ -50,8 +50,13 @@ Within app developer accounts, you can create a [developer test account](https:/
 2. In the Scopes section, add the following scope for your app using the "Add new scope" button.
 
    * `content`
+   * `transactional-email` (Optional, see note below)
+   * `marketing-email` (Optional, see note below)
+
+> **Note:** To use the `publish` and `unpublish` endpoints add one of `transactional-email` or `marketing-email` scopes. However a Hubspot Enterprise Account or Trasactional Email Add-on enabled is required to use these two endpoints.
 
    ![Hubspot Developer App Add Scopes](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/tree/main/docs/setup/resources/scopes.png )
+
 
 4. Add your Redirect URI in the relevant section. You can also use `localhost` addresses for local development purposes. Click Create App.
 
