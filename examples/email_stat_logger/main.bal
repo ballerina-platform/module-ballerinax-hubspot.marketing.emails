@@ -39,8 +39,7 @@ public function main() returns error? {
     // Timestamps must be in ISO 8601 format
     string startTimestamp = "2025-01-01T10:00:00Z";
     string endTimestamp = "2025-01-31T10:00:00Z";
-    "YEAR"|"QUARTER"|"MONTH"|"WEEK"|"DAY"|"HOUR"|"QUARTER_HOUR"|"MINUTE"|"SECOND" interval;
-    interval = "DAY";
+    "YEAR"|"QUARTER"|"MONTH"|"WEEK"|"DAY"|"HOUR"|"QUARTER_HOUR"|"MINUTE"|"SECOND" interval = "DAY";
 
 
     // First get the aggregated stats from Hubspot
@@ -49,12 +48,12 @@ public function main() returns error? {
                 endTimestamp
     });
 
-    io:println(string `***AGGREGATED STATISTICS FOR THE TIME PERIOD FROM ${startTimestamp} TO ${endTimestamp}`);
+    io:println(string `***Aggregated Statistics for the Time Period From ${startTimestamp} To ${endTimestamp}`);
 
-    io:println("IDS OF EMAILS SENT OUT, ");
+    io:println("IDs of the emails sent, ");
     io:println(aggreagate.emails);
 
-    io:print("AGGREGATE STATISTICS: ");
+    io:print("Aggrgated Statistics: ");
     io:println(aggreagate.aggregate);
 
     hsmemails:CollectionResponseWithTotalEmailStatisticIntervalNoPaging histogram = check
@@ -66,9 +65,9 @@ public function main() returns error? {
         }
     );
 
-    io:println(`${"\n\n\n"}***STATISTICS FOR THE TIME PERIOD FROM ${startTimestamp} TO ${endTimestamp} FOR EACH INTERVAL ${interval}`);
+    io:println(`***Statistics for the Time Period from ${startTimestamp} To ${endTimestamp} for each Interval: ${interval}`);
 
     foreach hsmemails:EmailStatisticInterval data_record in histogram.results {
-        io:println("INTERVAL: ", data_record.interval, " STATISTICS: ", data_record.aggregations);
+        io:println("Interval: ", data_record.interval, " Statistics: ", data_record.aggregations);
     }    
 }
