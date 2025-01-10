@@ -28,14 +28,13 @@ configurable boolean useMockServer = os:getEnv("useMockServer") == "true";
 configurable string serviceUrl = useMockServer ? "http://localhost:8080" : "https://api.hubapi.com/marketing/v3/emails";
 
 OAuth2RefreshTokenGrantConfig auth = {
-    clientId: clientId,
-    clientSecret: clientSecret,
-    refreshToken: refreshToken,
+    clientId,
+    clientSecret,
+    refreshToken,
     credentialBearer: oauth2:POST_BODY_BEARER // this line should be added to create auth object.
 };
 
-ConnectionConfig config = {auth: auth};
-final Client hubspotClient = check new (config, serviceUrl);
+final Client hubspotClient = check new ({auth}, serviceUrl);
 
 // Change this value and test
 final int days = 40;
