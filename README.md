@@ -158,16 +158,14 @@ import ballerina/oauth2;
     configurable string clientSecret = ?;
     configurable string refreshToken = ?;
 
-    final hsmemails:ConnectionConfig hsmeventsConfig = {
-        auth : {
-            clientId,
-            clientSecret,
-            refreshToken,
-            credentialBearer: oauth2:POST_BODY_BEARER
-        }
+    OAuth2RefreshTokenGrantConfig auth = {
+         clientId: clientId,
+         clientSecret: clientSecret,
+         refreshToken: refreshToken,
+         credentialBearer: oauth2:POST_BODY_BEARER
     };
 
-    final hsmemails:Client hsmemailClient = check new (hsmeventsConfig);
+    final hsmemails:Client hsmemailClient = check new ({auth});
     ```
 
 ### Step 3: Invoke the connector operation
@@ -178,7 +176,7 @@ Now, utilize the available connector operations. A sample usecase is shown below
     
 ```ballerina
 public function main() returns error? {
-    hsmemails:AggregateEmailStatistics emailStatistics = check hsmemailClient->/marketing/v3/emails/statistics/list({}, 
+    hsmemails:AggregateEmailStatistics emailStatistics = check hsmemailClient->statistics/list({}, 
      {
          startTimestamp: "2024-12-12T04:27:02Z",
          endTimestamp: "2024-12-19T04:27:02Z"
