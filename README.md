@@ -23,7 +23,7 @@ If you have an account already, go to the [HubSpot developer portal](https://app
 
 If you don't have a HubSpot Developer Account you can sign up to a free account [here](https://developers.hubspot.com/get-started)
 
-### Step 2 (Optional): Create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) under your account
+### Step 2 (Optional): Create a Developer Test Account under your account
 
 Within app developer accounts, you can create a [developer test account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) under your account to test apps and integrations without affecting any real HubSpot data.
 
@@ -158,16 +158,14 @@ import ballerina/oauth2;
     configurable string clientSecret = ?;
     configurable string refreshToken = ?;
 
-    final hsmemails:ConnectionConfig hsmeventsConfig = {
-        auth : {
-            clientId,
-            clientSecret,
-            refreshToken,
-            credentialBearer: oauth2:POST_BODY_BEARER
-        }
+    OAuth2RefreshTokenGrantConfig auth = {
+         clientId,
+         clientSecret,
+         refreshToken,
+         credentialBearer: oauth2:POST_BODY_BEARER
     };
 
-    final hsmemails:Client hsmemailClient = check new (hsmeventsConfig);
+    final hsmemails:Client hsmemailClient = check new ({auth});
     ```
 
 ### Step 3: Invoke the connector operation
@@ -178,7 +176,7 @@ Now, utilize the available connector operations. A sample usecase is shown below
     
 ```ballerina
 public function main() returns error? {
-    hsmemails:AggregateEmailStatistics emailStatistics = check hsmemailClient->/marketing/v3/emails/statistics/list({}, 
+    hsmemails:AggregateEmailStatistics emailStatistics = check hsmemailClient->statistics/list({}, 
      {
          startTimestamp: "2024-12-12T04:27:02Z",
          endTimestamp: "2024-12-19T04:27:02Z"
