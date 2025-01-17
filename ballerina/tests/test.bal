@@ -28,13 +28,6 @@ final string refreshToken = os:getEnv("HUBSPOT_REFRESH_TOKEN");
 configurable boolean isLiveServer = false;
 configurable string serviceUrl = isLiveServer ? "https://api.hubapi.com/marketing/v3/emails" : "http://localhost:8080";
 
-OAuth2RefreshTokenGrantConfig auth = {
-    clientId,
-    clientSecret,
-    refreshToken,
-    credentialBearer: oauth2:POST_BODY_BEARER // this line should be added to create auth object.
-};
-
 final Client hubspotClient = check initClient();
 
 isolated function initClient() returns Client|error {
