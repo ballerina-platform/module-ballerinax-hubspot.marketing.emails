@@ -1,5 +1,5 @@
 ## Overview
-[HubSpot](https://www.hubspot.com) is an AI-powered customer relationship management (CRM) platform. 
+[HubSpot](https://www.hubspot.com) is an AI-powered customer relationship management (CRM) platform.
 
 The `ballerinax/hubspot.marketing.emails` package offers APIs to connect and interact with the [HubSpot Marketing Emails API](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
 
@@ -145,7 +145,7 @@ import ballerina/oauth2;
 
 2. Instantiate a `hsmevents:ConnectionConfig` with the obtained credentials and initialize the connector with it.
 
-    ```ballerina 
+    ```ballerina
     configurable string clientId = ?;
     configurable string clientSecret = ?;
     configurable string refreshToken = ?;
@@ -165,10 +165,10 @@ import ballerina/oauth2;
 Now, utilize the available connector operations. A sample usecase is shown below.
 
 #### Get statistics for Marketing Emails
-    
+
 ```ballerina
 public function main() returns error? {
-    hsmemails:AggregateEmailStatistics emailStatistics = check hsmemailClient->/statistics/list({}, 
+    hsmemails:AggregateEmailStatistics emailStatistics = check hsmemailClient->/statistics/list({},
      {
          startTimestamp: "2024-12-12T04:27:02Z",
          endTimestamp: "2024-12-19T04:27:02Z"
