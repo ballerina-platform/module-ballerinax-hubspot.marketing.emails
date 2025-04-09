@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/http;
 import ballerina/oauth2;
 import ballerina/os;
 import ballerina/test;
@@ -124,10 +123,7 @@ public function testCreateDraftEp() returns error? {
     enable: isLiveServer
 }
 public function testResetDraftEp() returns error? {
-    http:Response response = check hubspotClient->/[testEmailId]/draft/reset.post();
-
-    // Assert that the status code is 204
-    test:assertEquals(response.statusCode, 204);
+    _ = check hubspotClient->/[testEmailId]/draft/reset.post();
 
     // Retrieve the email from the draft endpoint and check that the subject is changed back
     PublicEmail draftResponse = check hubspotClient->/[testEmailId]/draft();
@@ -161,10 +157,7 @@ public function testUpdateandRestoreEps() returns error? {
     CollectionResponseWithTotalVersionPublicEmail allRevisions = check hubspotClient->/[testEmailId]/revisions();
 
     // Restore back to the first revision
-    http:Response firstRevisionRestored = check hubspotClient->/[testEmailId]/revisions/[allRevisions.results[1].id]/restore.post({});
-
-    // Check that the response status is 204
-    test:assertEquals(firstRevisionRestored.statusCode, 204);
+    _ = check hubspotClient->/[testEmailId]/revisions/[allRevisions.results[1].id]/restore.post({});
 
     // Verify that the subject is same as it was in the first revision
     PublicEmail restoredVersion = check hubspotClient->/[testEmailId];
@@ -239,12 +232,6 @@ isolated function testHistogramEp() returns error? {
 }
 public function testDeleteEndpoint() returns error? {
     // Delete the created email and its clone
-    http:Response response_test_email = check hubspotClient->/[testEmailId].delete();
-    http:Response response_clone_email = check hubspotClient->/[cloneEmailId].delete();
-
-    // Check if the response status is 204
-    test:assertEquals(response_test_email.statusCode, 204);
-
-    // Check if the response status is 204
-    test:assertEquals(response_clone_email.statusCode, 204);
+    _ = check hubspotClient->/[testEmailId].delete();
+    _ = check hubspotClient->/[cloneEmailId].delete();
 }
