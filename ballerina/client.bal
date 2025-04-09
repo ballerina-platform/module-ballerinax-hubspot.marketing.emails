@@ -28,164 +28,14 @@ public isolated client class Client {
     # + serviceUrl - URL of the target service 
     # + return - An error if connector initialization failed 
     public isolated function init(ConnectionConfig config, string serviceUrl = "https://api.hubapi.com/marketing/v3/emails") returns error? {
-        http:ClientConfiguration httpClientConfig = {httpVersion: config.httpVersion, timeout: config.timeout, forwarded: config.forwarded, poolConfig: config.poolConfig, compression: config.compression, circuitBreaker: config.circuitBreaker, retryConfig: config.retryConfig, validation: config.validation};
-        do {
-            if config.http1Settings is ClientHttp1Settings {
-                ClientHttp1Settings settings = check config.http1Settings.ensureType(ClientHttp1Settings);
-                httpClientConfig.http1Settings = {...settings};
-            }
-            if config.http2Settings is http:ClientHttp2Settings {
-                httpClientConfig.http2Settings = check config.http2Settings.ensureType(http:ClientHttp2Settings);
-            }
-            if config.cache is http:CacheConfig {
-                httpClientConfig.cache = check config.cache.ensureType(http:CacheConfig);
-            }
-            if config.responseLimits is http:ResponseLimitConfigs {
-                httpClientConfig.responseLimits = check config.responseLimits.ensureType(http:ResponseLimitConfigs);
-            }
-            if config.secureSocket is http:ClientSecureSocket {
-                httpClientConfig.secureSocket = check config.secureSocket.ensureType(http:ClientSecureSocket);
-            }
-            if config.proxy is http:ProxyConfig {
-                httpClientConfig.proxy = check config.proxy.ensureType(http:ProxyConfig);
-            }
-        }
+        http:ClientConfiguration httpClientConfig = {httpVersion: config.httpVersion, http1Settings: config.http1Settings, http2Settings: config.http2Settings, timeout: config.timeout, forwarded: config.forwarded, followRedirects: config.followRedirects, poolConfig: config.poolConfig, cache: config.cache, compression: config.compression, circuitBreaker: config.circuitBreaker, retryConfig: config.retryConfig, cookieConfig: config.cookieConfig, responseLimits: config.responseLimits, secureSocket: config.secureSocket, proxy: config.proxy, socketConfig: config.socketConfig, validation: config.validation, laxDataBinding: config.laxDataBinding};
         if config.auth is ApiKeysConfig {
             self.apiKeyConfig = (<ApiKeysConfig>config.auth).cloneReadOnly();
         } else {
             httpClientConfig.auth = <http:BearerTokenConfig|OAuth2RefreshTokenGrantConfig>config.auth;
             self.apiKeyConfig = ();
         }
-        http:Client httpEp = check new (serviceUrl, httpClientConfig);
-        self.clientEp = httpEp;
-        return;
-    }
-
-    # Delete a marketing email.
-    #
-    # + emailId - The ID of the marketing email to delete.
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - No content 
-    resource isolated function delete [string emailId](map<string|string[]> headers = {}, *DeleteEmailidQueries queries) returns http:Response|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        return self.clientEp->delete(resourcePath, headers = httpHeaders);
-    }
-
-    # Get all marketing emails for a HubSpot account.
-    #
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
-    resource isolated function get .(map<string|string[]> headers = {}, *GetQueries queries) returns CollectionResponseWithTotalPublicEmailForwardPaging|error {
-        string resourcePath = string `/`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<Encoding> queryParamEncoding = {"sort": {style: FORM, explode: true}, "includedProperties": {style: FORM, explode: true}};
-        resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        return self.clientEp->get(resourcePath, httpHeaders);
-    }
-
-    # Get the details of a specified marketing email.
-    #
-    # + emailId - The marketing email ID.
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
-    resource isolated function get [string emailId](map<string|string[]> headers = {}, *GetEmailidQueries queries) returns PublicEmail|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<Encoding> queryParamEncoding = {"includedProperties": {style: FORM, explode: true}};
-        resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        return self.clientEp->get(resourcePath, httpHeaders);
-    }
-
-    resource isolated function get [string emailId]/ab\-test/get\-variation(map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/ab-test/get-variation`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        return self.clientEp->get(resourcePath, httpHeaders);
-    }
-
-    # Get draft version of a marketing email
-    #
-    # + emailId - The marketing email ID.
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
-    resource isolated function get [string emailId]/draft(map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/draft`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        return self.clientEp->get(resourcePath, httpHeaders);
-    }
-
-    # Get revisions of a marketing email
-    #
-    # + emailId - The marketing email ID.
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
-    resource isolated function get [string emailId]/revisions(map<string|string[]> headers = {}, *GetEmailidRevisionsQueries queries) returns CollectionResponseWithTotalVersionPublicEmail|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/revisions`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        return self.clientEp->get(resourcePath, httpHeaders);
-    }
-
-    # Get a revision of a marketing email.
-    #
-    # + emailId - The marketing email ID.
-    # + revisionId - The ID of a revision.
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
-    resource isolated function get [string emailId]/revisions/[string revisionId](map<string|string[]> headers = {}) returns VersionPublicEmail|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        return self.clientEp->get(resourcePath, httpHeaders);
-    }
-
-    # Get aggregated statistic intervals.
-    #
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
-    resource isolated function get statistics/histogram(map<string|string[]> headers = {}, *GetStatisticsHistogramQueries queries) returns CollectionResponseWithTotalEmailStatisticIntervalNoPaging|error {
-        string resourcePath = string `/statistics/histogram`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<Encoding> queryParamEncoding = {"emailIds": {style: FORM, explode: true}};
-        resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        return self.clientEp->get(resourcePath, httpHeaders);
+        self.clientEp = check new (serviceUrl, httpClientConfig);
     }
 
     # Get aggregated statistics.
@@ -197,141 +47,25 @@ public isolated client class Client {
         string resourcePath = string `/statistics/list`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
         }
         map<Encoding> queryParamEncoding = {"emailIds": {style: FORM, explode: true}};
         resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         return self.clientEp->get(resourcePath, httpHeaders);
-    }
-
-    # Update a marketing email.
-    #
-    # + emailId - The ID of the marketing email that should get updated
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + payload - A marketing email object with properties that should overwrite the corresponding properties of the marketing email. 
-    # + return - successful operation 
-    resource isolated function patch [string emailId](EmailUpdateRequest payload, map<string|string[]> headers = {}, *PatchEmailidQueries queries) returns PublicEmail|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        http:Request request = new;
-        json jsonBody = payload.toJson();
-        request.setPayload(jsonBody, "application/json");
-        return self.clientEp->patch(resourcePath, request, httpHeaders);
-    }
-
-    # Create or update draft version
-    #
-    # + emailId - The marketing email ID.
-    # + headers - Headers to be sent with the request 
-    # + payload - A marketing email object with properties that should overwrite the corresponding properties in the email's current draft. 
-    # + return - successful operation 
-    resource isolated function patch [string emailId]/draft(EmailUpdateRequest payload, map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/draft`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        http:Request request = new;
-        json jsonBody = payload.toJson();
-        request.setPayload(jsonBody, "application/json");
-        return self.clientEp->patch(resourcePath, request, httpHeaders);
-    }
-
-    # Create a new marketing email.
-    #
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
-    resource isolated function post .(EmailCreateRequest payload, map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        http:Request request = new;
-        json jsonBody = payload.toJson();
-        request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, httpHeaders);
-    }
-
-    # Reset Draft
-    #
-    # + emailId - The marketing email ID.
-    # + headers - Headers to be sent with the request 
-    # + return - No content 
-    resource isolated function post [string emailId]/draft/reset(map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/draft/reset`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        http:Request request = new;
-        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Publish or send a marketing email.
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function post [string emailId]/publish(map<string|string[]> headers = {}) returns http:Response|error {
+    resource isolated function post [string emailId]/publish(map<string|string[]> headers = {}) returns error? {
         string resourcePath = string `/${getEncodedUri(emailId)}/publish`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
         }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        http:Request request = new;
-        return self.clientEp->post(resourcePath, request, httpHeaders);
-    }
-
-    resource isolated function post [string emailId]/revisions/[int revisionId]/restore\-to\-draft(map<string|string[]> headers = {}) returns PublicEmail|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore-to-draft`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        http:Request request = new;
-        return self.clientEp->post(resourcePath, request, httpHeaders);
-    }
-
-    # Restore a revision of a marketing email
-    #
-    # + emailId - The marketing email ID.
-    # + revisionId - The ID of a revision.
-    # + headers - Headers to be sent with the request 
-    # + return - No content 
-    resource isolated function post [string emailId]/revisions/[string revisionId]/restore(map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
-        http:Request request = new;
-        return self.clientEp->post(resourcePath, request, httpHeaders);
-    }
-
-    # Unpublish or cancel a marketing email.
-    #
-    # + headers - Headers to be sent with the request 
-    # + return - No content 
-    resource isolated function post [string emailId]/unpublish(map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}/unpublish`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-        }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -340,13 +74,149 @@ public isolated client class Client {
         string resourcePath = string `/ab-test/create-variation`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
         }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = payload.toJson();
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    # Get aggregated statistic intervals.
+    #
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get statistics/histogram(map<string|string[]> headers = {}, *GetStatisticsHistogramQueries queries) returns CollectionResponseWithTotalEmailStatisticIntervalNoPaging|error {
+        string resourcePath = string `/statistics/histogram`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<Encoding> queryParamEncoding = {"emailIds": {style: FORM, explode: true}};
+        resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
+    }
+
+    resource isolated function get [string emailId]/ab\-test/get\-variation(map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/ab-test/get-variation`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
+    }
+
+    # Reset Draft
+    #
+    # + emailId - The marketing email ID
+    # + headers - Headers to be sent with the request 
+    # + return - No content 
+    resource isolated function post [string emailId]/draft/reset(map<string|string[]> headers = {}) returns error? {
+        string resourcePath = string `/${getEncodedUri(emailId)}/draft/reset`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        http:Request request = new;
+        return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    resource isolated function post [string emailId]/revisions/[int revisionId]/restore\-to\-draft(map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore-to-draft`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        http:Request request = new;
+        return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    # Get draft version of a marketing email
+    #
+    # + emailId - The marketing email ID
+    # + headers - Headers to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get [string emailId]/draft(map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/draft`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
+    }
+
+    # Create or update draft version
+    #
+    # + emailId - The marketing email ID
+    # + headers - Headers to be sent with the request 
+    # + payload - A marketing email object with properties that should overwrite the corresponding properties in the email's current draft 
+    # + return - successful operation 
+    resource isolated function patch [string emailId]/draft(EmailUpdateRequest payload, map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/draft`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        http:Request request = new;
+        json jsonBody = payload.toJson();
+        request.setPayload(jsonBody, "application/json");
+        return self.clientEp->patch(resourcePath, request, httpHeaders);
+    }
+
+    # Get revisions of a marketing email
+    #
+    # + emailId - The marketing email ID
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get [string emailId]/revisions(map<string|string[]> headers = {}, *GetEmailIdRevisionsQueries queries) returns CollectionResponseWithTotalVersionPublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/revisions`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
+    }
+
+    # Unpublish or cancel a marketing email.
+    #
+    # + headers - Headers to be sent with the request 
+    # + return - No content 
+    resource isolated function post [string emailId]/unpublish(map<string|string[]> headers = {}) returns error? {
+        string resourcePath = string `/${getEncodedUri(emailId)}/unpublish`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        http:Request request = new;
+        return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    # Get a revision of a marketing email.
+    #
+    # + emailId - The marketing email ID
+    # + revisionId - The ID of a revision
+    # + headers - Headers to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get [string emailId]/revisions/[string revisionId](map<string|string[]> headers = {}) returns VersionPublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Clone a marketing email.
@@ -357,12 +227,119 @@ public isolated client class Client {
         string resourcePath = string `/clone`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
         }
-        map<string|string[]> httpHeaders = getMapForHeaders(headerValues);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = payload.toJson();
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    # Get all marketing emails for a HubSpot account.
+    #
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get .(map<string|string[]> headers = {}, *GetQueries queries) returns CollectionResponseWithTotalPublicEmailForwardPaging|error {
+        string resourcePath = string `/`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<Encoding> queryParamEncoding = {"sort": {style: FORM, explode: true}, "includedProperties": {style: FORM, explode: true}};
+        resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
+    }
+
+    # Create a new marketing email.
+    #
+    # + headers - Headers to be sent with the request 
+    # + return - successful operation 
+    resource isolated function post .(EmailCreateRequest payload, map<string|string[]> headers = {}) returns PublicEmail|error {
+        string resourcePath = string `/`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        http:Request request = new;
+        json jsonBody = payload.toJson();
+        request.setPayload(jsonBody, "application/json");
+        return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    # Restore a revision of a marketing email
+    #
+    # + emailId - The marketing email ID
+    # + revisionId - The ID of a revision
+    # + headers - Headers to be sent with the request 
+    # + return - No content 
+    resource isolated function post [string emailId]/revisions/[string revisionId]/restore(map<string|string[]> headers = {}) returns error? {
+        string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        http:Request request = new;
+        return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    # Get the details of a specified marketing email.
+    #
+    # + emailId - The marketing email ID
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get [string emailId](map<string|string[]> headers = {}, *GetEmailIdQueries queries) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        map<Encoding> queryParamEncoding = {"includedProperties": {style: FORM, explode: true}};
+        resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
+    }
+
+    # Delete a marketing email.
+    #
+    # + emailId - The ID of the marketing email to delete
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + return - No content 
+    resource isolated function delete [string emailId](map<string|string[]> headers = {}, *DeleteEmailIdQueries queries) returns error? {
+        string resourcePath = string `/${getEncodedUri(emailId)}`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
+    }
+
+    # Update a marketing email.
+    #
+    # + emailId - The ID of the marketing email that should get updated
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + payload - A marketing email object with properties that should overwrite the corresponding properties of the marketing email 
+    # + return - successful operation 
+    resource isolated function patch [string emailId](EmailUpdateRequest payload, map<string|string[]> headers = {}, *PatchEmailIdQueries queries) returns PublicEmail|error {
+        string resourcePath = string `/${getEncodedUri(emailId)}`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+        }
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        http:Request request = new;
+        json jsonBody = payload.toJson();
+        request.setPayload(jsonBody, "application/json");
+        return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 }
