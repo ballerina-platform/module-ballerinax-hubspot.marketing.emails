@@ -1,8 +1,6 @@
 # Ballerina HubSpot Marketing Emails connector
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/actions/workflows/ci.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/actions/workflows/ci.yml)
-[![Trivy](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/actions/workflows/trivy-scan.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/actions/workflows/trivy-scan.yml)
-[![GraalVM Check](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/actions/workflows/build-with-bal-test-graalvm.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/actions/workflows/build-with-bal-test-graalvm.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-hubspot.marketing.emails.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/commits/master)
 [![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/hubspot.marketing.emails.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%hubspot.marketing.emails)
 
