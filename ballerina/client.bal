@@ -71,6 +71,10 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
+    # Create an A/B test variation of a marketing email.
+    #
+    # + headers - Headers to be sent with the request 
+    # + return - successful operation 
     resource isolated function post ab\-test/create\-variation(AbTestCreateRequestVNext payload, map<string|string[]> headers = {}) returns PublicEmail|error {
         string resourcePath = string `/ab-test/create-variation`;
         map<anydata> headerValues = {...headers};
@@ -101,6 +105,11 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
+    # Get the variation of a an A/B marketing email
+    #
+    # + emailId - The ID of an A/B marketing email
+    # + headers - Headers to be sent with the request 
+    # + return - successful operation 
     resource isolated function get [string emailId]/ab\-test/get\-variation(map<string|string[]> headers = {}) returns PublicEmail|error {
         string resourcePath = string `/${getEncodedUri(emailId)}/ab-test/get-variation`;
         map<anydata> headerValues = {...headers};
@@ -127,6 +136,12 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
+    # Restore a revision of a marketing email to DRAFT state
+    #
+    # + emailId - The marketing email ID
+    # + revisionId - The ID of a revision
+    # + headers - Headers to be sent with the request 
+    # + return - successful operation 
     resource isolated function post [string emailId]/revisions/[int revisionId]/restore\-to\-draft(map<string|string[]> headers = {}) returns PublicEmail|error {
         string resourcePath = string `/${getEncodedUri(emailId)}/revisions/${getEncodedUri(revisionId)}/restore-to-draft`;
         map<anydata> headerValues = {...headers};
