@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/actions/workflows/ci.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/actions/workflows/ci.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-hubspot.marketing.emails.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/commits/master)
-[![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/hubspot.marketing.emails.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%hubspot.marketing.emails)
+[![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/hubspot.marketing.emails.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%2Fhubspot.marketing.emails)
 
 ## Overview
 [HubSpot](https://www.hubspot.com) is an AI-powered customer relationship management (CRM) platform. 
@@ -29,21 +29,21 @@ Within app developer accounts, you can create a [developer test account](https:/
 
 1. Go to Test Account section from the left sidebar.
 
-   ![Hubspot Developer Portal](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/test_acc_1.png)
+   ![HubSpot Developer Portal](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/test_acc_1.png)
 
 2. Click Create developer test account.
 
-   ![Hubspot Developer Test Account](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/test_acc_2.png)
+   ![HubSpot Developer Test Account](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/test_acc_2.png)
 
 3. In the dialogue box, give a name to your test account and click create.
 
-   ![Hubspot Developer Test Account](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/test_acc_3.png)
+   ![HubSpot Developer Test Account](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/test_acc_3.png)
 
 ### Step 3: Create a HubSpot App under your account.
 
 1. In your developer account, navigate to the "Apps" section. Click on "Create App"
 
-   ![Hubspot Create App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/create_app_1.png)
+   ![HubSpot Create App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/create_app_1.png)
 
 2. Provide the necessary details, including the app name and description.
 
@@ -51,7 +51,7 @@ Within app developer accounts, you can create a [developer test account](https:/
 
 1. Move to the Auth Tab. (Second tab next to App Info)
 
-   ![Hubspot Developer Config Auth](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/auth_section.png )
+   ![HubSpot Developer Config Auth](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/auth_section.png )
 
 2. In the Scopes section, add the following scope for your app using the "Add new scope" button.
 
@@ -59,19 +59,19 @@ Within app developer accounts, you can create a [developer test account](https:/
    * `transactional-email` (Optional, see note below)
    * `marketing-email` (Optional, see note below)
 
-> **Note:** To use the `publish` and `unpublish` endpoints add one of `transactional-email` or `marketing-email` scopes. However a Hubspot Enterprise Account or Trasactional Email Add-on enabled is required to use these two endpoints.
+> **Note:** To use the `publish` and `unpublish` endpoints add one of `transactional-email` or `marketing-email` scopes. However a HubSpot Enterprise Account or Trasactional Email Add-on enabled is required to use these two endpoints.
 
-   ![Hubspot Developer App Add Scopes](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/scopes.png )
+   ![HubSpot Developer App Add Scopes](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/scopes.png )
 
 4. Add your Redirect URI in the relevant section. You can also use `localhost` addresses for local development purposes. Click Create App.
 
-   ![Hubspot Create Developer App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/create_app_final.png )
+   ![HubSpot Create Developer App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/create_app_final.png )
 
 ### Step 5: Get your Client ID and Client Secret
 
 - Navigate to the Auth section of your app. Make sure to save the provided Client ID and Client Secret.
 
-   ![Hubspot Get Credentials](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/get_credentials.png )
+   ![HubSpot Get Credentials](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/get_credentials.png )
 
 ### Step 6: Setup Authentication Flow
 
@@ -89,7 +89,7 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 2. Paste it in the browser and select your developer test account to install the app when prompted.
 
-   ![Hubspot Get Auth Code](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/install_app.png)
+   ![HubSpot Get Auth Code](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/main/docs/setup/resources/install_app.png)
 
 3. A code will be displayed in the browser. Copy the code.
 
@@ -185,7 +185,7 @@ public function main() returns error? {
 
 ## Examples
 
-The `Hubspot Marketing Emails` connector provides practical examples illustrating usage in various scenarios. Explore these examples, covering use cases:
+The `HubSpot Marketing Emails` connector provides practical examples illustrating usage in various scenarios. Explore these examples, covering use cases:
 
 1. [Bulk Change Reply To Email](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.emails/tree/main/examples/bulk_change_reply_email/) - Change the Reply To and Custom Reply To email address of all draft emails
 
