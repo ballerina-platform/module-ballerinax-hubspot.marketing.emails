@@ -23,7 +23,9 @@ import ballerina/http;
 public type PublicEmailToDetails record {
     # Data structure representing lists of IDs that should be included and excluded
     PublicEmailRecipients contactIlsLists?;
+    # Whether to enforce send frequency limits for recipients
     boolean limitSendFrequency?;
+    # Whether to suppress sending to low-engagement contacts
     boolean suppressGraymail?;
     # Data structure representing lists of IDs that should be included and excluded
     PublicEmailRecipients contactIds?;
@@ -31,9 +33,13 @@ public type PublicEmailToDetails record {
     PublicEmailRecipients contactLists?;
 };
 
+# Style settings for a divider element, including color, line type, and height
 public type PublicDividerStyleSettings record {
+    # The color applied to the divider element
     record {} color?;
+    # The line style of the divider (e.g., solid, dashed)
     string lineType?;
+    # The height of the divider in pixels
     int:Signed32 height?;
 };
 
@@ -57,19 +63,25 @@ public type PublicEmail record {
     string publishDate?;
     # Returns whether the email is a transactional email or not. This is read only
     boolean isTransactional?;
+    # The BCP 47 language/locale code of the email content
     "af"|"af-na"|"af-za"|"agq"|"agq-cm"|"ak"|"ak-gh"|"am"|"am-et"|"ann"|"ann-ng"|"ar"|"ar-001"|"ar-ae"|"ar-bh"|"ar-dj"|"ar-dz"|"ar-eg"|"ar-eh"|"ar-er"|"ar-il"|"ar-iq"|"ar-jo"|"ar-km"|"ar-kw"|"ar-lb"|"ar-ly"|"ar-ma"|"ar-mr"|"ar-om"|"ar-ps"|"ar-qa"|"ar-sa"|"ar-sd"|"ar-so"|"ar-ss"|"ar-sy"|"ar-td"|"ar-tn"|"ar-ye"|"as"|"asa"|"asa-tz"|"ast"|"ast-es"|"as-in"|"az"|"az-az"|"bas"|"bas-cm"|"be"|"bem"|"bem-zm"|"bez"|"bez-tz"|"be-by"|"bg"|"bgc"|"bgc-in"|"bg-bg"|"bho"|"bho-in"|"bm"|"bm-ml"|"bn"|"bn-bd"|"bn-in"|"bo"|"bo-cn"|"bo-in"|"br"|"brx"|"brx-in"|"br-fr"|"bs"|"bs-ba"|"ca"|"ca-ad"|"ca-es"|"ca-fr"|"ca-it"|"ccp"|"ccp-bd"|"ccp-in"|"ce"|"ceb"|"ceb-ph"|"ce-ru"|"cgg"|"cgg-ug"|"chr"|"chr-us"|"ckb"|"ckb-iq"|"ckb-ir"|"cs"|"cs-cz"|"cu"|"cu-ru"|"cv"|"cv-ru"|"cy"|"cy-gb"|"da"|"dav"|"dav-ke"|"da-dk"|"da-gl"|"de"|"de-at"|"de-be"|"de-ch"|"de-de"|"de-gr"|"de-it"|"de-li"|"de-lu"|"dje"|"dje-ne"|"doi"|"doi-in"|"dsb"|"dsb-de"|"dua"|"dua-cm"|"dyo"|"dyo-sn"|"dz"|"dz-bt"|"ebu"|"ebu-ke"|"ee"|"ee-gh"|"ee-tg"|"el"|"el-cy"|"el-gr"|"en"|"en-001"|"en-150"|"en-ae"|"en-ag"|"en-ai"|"en-as"|"en-at"|"en-au"|"en-bb"|"en-be"|"en-bi"|"en-bm"|"en-bs"|"en-bw"|"en-bz"|"en-ca"|"en-cc"|"en-ch"|"en-ck"|"en-cm"|"en-cn"|"en-cx"|"en-cy"|"en-de"|"en-dg"|"en-dk"|"en-dm"|"en-ee"|"en-er"|"en-fi"|"en-fj"|"en-fk"|"en-fm"|"en-fr"|"en-gb"|"en-gd"|"en-gg"|"en-gh"|"en-gi"|"en-gm"|"en-gu"|"en-gy"|"en-hk"|"en-ie"|"en-il"|"en-im"|"en-in"|"en-io"|"en-je"|"en-jm"|"en-ke"|"en-ki"|"en-kn"|"en-ky"|"en-lc"|"en-lr"|"en-ls"|"en-lu"|"en-mg"|"en-mh"|"en-mo"|"en-mp"|"en-ms"|"en-mt"|"en-mu"|"en-mv"|"en-mw"|"en-mx"|"en-my"|"en-na"|"en-nf"|"en-ng"|"en-nl"|"en-nr"|"en-nu"|"en-nz"|"en-pg"|"en-ph"|"en-pk"|"en-pn"|"en-pr"|"en-pw"|"en-rw"|"en-sb"|"en-sc"|"en-sd"|"en-se"|"en-sg"|"en-sh"|"en-si"|"en-sl"|"en-ss"|"en-sx"|"en-sz"|"en-tc"|"en-tk"|"en-to"|"en-tt"|"en-tv"|"en-tz"|"en-ug"|"en-um"|"en-us"|"en-vc"|"en-vg"|"en-vi"|"en-vu"|"en-ws"|"en-za"|"en-zm"|"en-zw"|"eo"|"eo-001"|"es"|"es-419"|"es-ar"|"es-bo"|"es-br"|"es-bz"|"es-cl"|"es-co"|"es-cr"|"es-cu"|"es-do"|"es-ea"|"es-ec"|"es-es"|"es-gq"|"es-gt"|"es-hn"|"es-ic"|"es-mx"|"es-ni"|"es-pa"|"es-pe"|"es-ph"|"es-pr"|"es-py"|"es-sv"|"es-us"|"es-uy"|"es-ve"|"et"|"et-ee"|"eu"|"eu-es"|"ewo"|"ewo-cm"|"fa"|"fa-af"|"fa-ir"|"ff"|"ff-bf"|"ff-cm"|"ff-gh"|"ff-gm"|"ff-gn"|"ff-gw"|"ff-lr"|"ff-mr"|"ff-ne"|"ff-ng"|"ff-sl"|"ff-sn"|"fi"|"fil"|"fil-ph"|"fi-fi"|"fo"|"fo-dk"|"fo-fo"|"fr"|"frr"|"frr-de"|"fr-be"|"fr-bf"|"fr-bi"|"fr-bj"|"fr-bl"|"fr-ca"|"fr-cd"|"fr-cf"|"fr-cg"|"fr-ch"|"fr-ci"|"fr-cm"|"fr-dj"|"fr-dz"|"fr-fr"|"fr-ga"|"fr-gf"|"fr-gn"|"fr-gp"|"fr-gq"|"fr-ht"|"fr-km"|"fr-lu"|"fr-ma"|"fr-mc"|"fr-mf"|"fr-mg"|"fr-ml"|"fr-mq"|"fr-mr"|"fr-mu"|"fr-nc"|"fr-ne"|"fr-pf"|"fr-pm"|"fr-re"|"fr-rw"|"fr-sc"|"fr-sn"|"fr-sy"|"fr-td"|"fr-tg"|"fr-tn"|"fr-vu"|"fr-wf"|"fr-yt"|"fur"|"fur-it"|"fy"|"fy-nl"|"ga"|"ga-gb"|"ga-ie"|"gd"|"gd-gb"|"gl"|"gl-es"|"gsw"|"gsw-ch"|"gsw-fr"|"gsw-li"|"gu"|"guz"|"guz-ke"|"gu-in"|"gv"|"gv-im"|"ha"|"haw"|"haw-us"|"ha-gh"|"ha-ne"|"ha-ng"|"he"|"hi"|"hi-in"|"hr"|"hr-ba"|"hr-hr"|"hsb"|"hsb-de"|"hu"|"hu-hu"|"hy"|"hy-am"|"ia"|"ia-001"|"id"|"ig"|"ig-ng"|"ii"|"ii-cn"|"id-id"|"is"|"is-is"|"it"|"it-ch"|"it-it"|"it-sm"|"it-va"|"he-il"|"ja"|"ja-jp"|"jgo"|"jgo-cm"|"yi"|"yi-001"|"jmc"|"jmc-tz"|"jv"|"jv-id"|"ka"|"kab"|"kab-dz"|"kam"|"kam-ke"|"ka-ge"|"kde"|"kde-tz"|"kea"|"kea-cv"|"kgp"|"kgp-br"|"khq"|"khq-ml"|"ki"|"ki-ke"|"kk"|"kkj"|"kkj-cm"|"kk-kz"|"kl"|"kln"|"kln-ke"|"kl-gl"|"km"|"km-kh"|"kn"|"kn-in"|"ko"|"kok"|"kok-in"|"ko-kp"|"ko-kr"|"ks"|"ksb"|"ksb-tz"|"ksf"|"ksf-cm"|"ksh"|"ksh-de"|"ks-in"|"ku"|"ku-tr"|"kw"|"kw-gb"|"ky"|"ky-kg"|"lag"|"lag-tz"|"lb"|"lb-lu"|"lg"|"lg-ug"|"lkt"|"lkt-us"|"ln"|"ln-ao"|"ln-cd"|"ln-cf"|"ln-cg"|"lo"|"lo-la"|"lrc"|"lrc-iq"|"lrc-ir"|"lt"|"lt-lt"|"lu"|"luo"|"luo-ke"|"luy"|"luy-ke"|"lu-cd"|"lv"|"lv-lv"|"mai"|"mai-in"|"mas"|"mas-ke"|"mas-tz"|"mdf"|"mdf-ru"|"mer"|"mer-ke"|"mfe"|"mfe-mu"|"mg"|"mgh"|"mgh-mz"|"mgo"|"mgo-cm"|"mg-mg"|"mi"|"mi-nz"|"mk"|"mk-mk"|"ml"|"ml-in"|"mn"|"mni"|"mni-in"|"mn-mn"|"mr"|"mr-in"|"ms"|"ms-bn"|"ms-id"|"ms-my"|"ms-sg"|"mt"|"mt-mt"|"mua"|"mua-cm"|"my"|"my-mm"|"mzn"|"mzn-ir"|"naq"|"naq-na"|"nb"|"nb-no"|"nb-sj"|"nd"|"nds"|"nds-de"|"nds-nl"|"nd-zw"|"ne"|"ne-in"|"ne-np"|"nl"|"nl-aw"|"nl-be"|"nl-bq"|"nl-ch"|"nl-cw"|"nl-lu"|"nl-nl"|"nl-sr"|"nl-sx"|"nmg"|"nmg-cm"|"nn"|"nnh"|"nnh-cm"|"nn-no"|"no"|"no-no"|"nus"|"nus-ss"|"nyn"|"nyn-ug"|"oc"|"oc-es"|"oc-fr"|"om"|"om-et"|"om-ke"|"or"|"or-in"|"os"|"os-ge"|"os-ru"|"pa"|"pa-in"|"pa-pk"|"pcm"|"pcm-ng"|"pis"|"pis-sb"|"pl"|"pl-pl"|"prg"|"prg-001"|"ps"|"ps-af"|"ps-pk"|"pt"|"pt-ao"|"pt-br"|"pt-ch"|"pt-cv"|"pt-gq"|"pt-gw"|"pt-lu"|"pt-mo"|"pt-mz"|"pt-pt"|"pt-st"|"pt-tl"|"qu"|"qu-bo"|"qu-ec"|"qu-pe"|"raj"|"raj-in"|"rm"|"rm-ch"|"rn"|"rn-bi"|"ro"|"rof"|"rof-tz"|"ro-md"|"ro-ro"|"ru"|"ru-by"|"ru-kg"|"ru-kz"|"ru-md"|"ru-ru"|"ru-ua"|"rw"|"rwk"|"rwk-tz"|"rw-rw"|"sa"|"sah"|"sah-ru"|"saq"|"saq-ke"|"sat"|"sat-in"|"sa-in"|"sbp"|"sbp-tz"|"sc"|"sc-it"|"sd"|"sd-in"|"sd-pk"|"se"|"seh"|"seh-mz"|"ses"|"ses-ml"|"se-fi"|"se-no"|"se-se"|"sg"|"sg-cf"|"shi"|"shi-ma"|"si"|"si-lk"|"sk"|"sk-sk"|"sl"|"sl-si"|"smn"|"smn-fi"|"sms"|"sms-fi"|"sn"|"sn-zw"|"so"|"so-dj"|"so-et"|"so-ke"|"so-so"|"sq"|"sq-al"|"sq-mk"|"sq-xk"|"sr"|"sr-ba"|"sr-cs"|"sr-me"|"sr-rs"|"sr-xk"|"su"|"su-id"|"sv"|"sv-ax"|"sv-fi"|"sv-se"|"sw"|"sw-cd"|"sw-ke"|"sw-tz"|"sw-ug"|"sy"|"ta"|"ta-in"|"ta-lk"|"ta-my"|"ta-sg"|"te"|"teo"|"teo-ke"|"teo-ug"|"te-in"|"tg"|"tg-tj"|"th"|"th-th"|"ti"|"ti-er"|"ti-et"|"tk"|"tk-tm"|"tl"|"to"|"tok"|"tok-001"|"to-to"|"tr"|"tr-cy"|"tr-tr"|"tt"|"tt-ru"|"twq"|"twq-ne"|"tzm"|"tzm-ma"|"ug"|"ug-cn"|"uk"|"uk-ua"|"ur"|"ur-in"|"ur-pk"|"uz"|"uz-af"|"uz-uz"|"vai"|"vai-lr"|"vi"|"vi-vn"|"vo"|"vo-001"|"vun"|"vun-tz"|"wae"|"wae-ch"|"wo"|"wo-sn"|"xh"|"xh-za"|"xog"|"xog-ug"|"yav"|"yav-cm"|"yo"|"yo-bj"|"yo-ng"|"yrl"|"yrl-br"|"yrl-co"|"yrl-ve"|"yue"|"yue-cn"|"yue-hk"|"zgh"|"zgh-ma"|"zh"|"zh-cn"|"zh-hans"|"zh-hant"|"zh-hk"|"zh-mo"|"zh-sg"|"zh-tw"|"zu"|"zu-za" language?;
     # The email type, this is derived from other properties on the email such as subcategory
     "AB_EMAIL"|"BATCH_EMAIL"|"LOCALTIME_EMAIL"|"AUTOMATED_AB_EMAIL"|"BLOG_EMAIL"|"BLOG_EMAIL_CHILD"|"RSS_EMAIL"|"RSS_EMAIL_CHILD"|"RESUBSCRIBE_EMAIL"|"OPTIN_EMAIL"|"OPTIN_FOLLOWUP_EMAIL"|"AUTOMATED_EMAIL"|"FEEDBACK_CES_EMAIL"|"FEEDBACK_CUSTOM_EMAIL"|"FEEDBACK_CUSTOM_SURVEY_EMAIL"|"FEEDBACK_NPS_EMAIL"|"FOLLOWUP_EMAIL"|"LEADFLOW_EMAIL"|"SINGLE_SEND_API"|"MARKETING_SINGLE_SEND_API"|"SMTP_TOKEN"|"TICKET_EMAIL"|"MEMBERSHIP_REGISTRATION_EMAIL"|"MEMBERSHIP_PASSWORD_SAVED_EMAIL"|"MEMBERSHIP_PASSWORD_RESET_EMAIL"|"MEMBERSHIP_EMAIL_VERIFICATION_EMAIL"|"MEMBERSHIP_PASSWORDLESS_AUTH_EMAIL"|"MEMBERSHIP_REGISTRATION_FOLLOW_UP_EMAIL"|"MEMBERSHIP_OTP_LOGIN_EMAIL"|"MEMBERSHIP_FOLLOW_UP_EMAIL"|"MEMBERSHIP_VERIFICATION_EMAIL" 'type?;
     # Data structure representing the content of the email
     PublicEmailContent content;
+    # The ID of the business unit associated with the email
     string businessUnitId?;
+    # Web version page settings for a marketing email, including URL, redirect configuration, metadata, and expiry details
     PublicWebversionDetails webversion?;
+    # Names of workflows that reference this email
     string[] workflowNames?;
     # Determines if the email is archived or not
     boolean archived?;
     # The date and time of the email's creation, in ISO8601 representation
     string createdAt?;
+    # Aggregated email performance statistics including counters, engagement ratios, device breakdowns, and delivery qualifier metrics
     EmailStatisticsData stats?;
+    # Whether to randomize the send time slightly to reduce server load
     boolean jitterSendTime?;
     # Data structure representing the from fields on the email
     PublicEmailFromDetails 'from;
@@ -85,6 +97,7 @@ public type PublicEmail record {
     PublicRssEmailDetails rssData?;
     # The date and time the email was published at, in ISO8601 representation
     string publishedAt?;
+    # The ID of the user who published the email
     string publishedById?;
     # Returns the published status of the email. This is read only
     boolean isPublished?;
@@ -92,9 +105,11 @@ public type PublicEmail record {
     PublicEmailTestingDetails testing?;
     # The id of the user who last updated the email
     string updatedById?;
+    # ID of the folder containing this email
     int folderId?;
     # Data structure representing the subscription fields of the email
     PublicEmailSubscriptionDetails subscriptionDetails?;
+    # Timestamp when the email was deleted
     string deletedAt?;
     # The name of the email, as displayed on the email dashboard
     string name;
@@ -106,6 +121,7 @@ public type PublicEmail record {
     PublicEmailToDetails to;
     # The email subcategory
     string subcategory;
+    # Name of the campaign associated with this email
     string campaignName?;
     # Determines whether the email will be sent immediately on publish
     boolean sendOnPublish?;
@@ -113,13 +129,17 @@ public type PublicEmail record {
 
 # Request body object for creating A/B tests
 public type AbTestCreateRequestVNext record {
+    # Display name for this A/B test variation
     string variationName;
     # ID of the object to test
     string contentId;
 };
 
+# Email statistics aggregated over a specific time interval
 public type EmailStatisticInterval record {
+    # Defines a time interval with a required start and end datetime
     Interval interval?;
+    # Aggregated email performance statistics including counters, engagement ratios, device breakdowns, and delivery qualifier metrics
     EmailStatisticsData aggregations?;
 };
 
@@ -127,19 +147,25 @@ public type EmailStatisticInterval record {
 public type CollectionResponseWithTotalPublicEmailForwardPaging record {
     # Total number of content emails
     int:Signed32 total;
+    # Forward pagination object containing the next page cursor
     ForwardPaging paging?;
     # Collection of emails
     PublicEmail[] results;
 };
 
+# Forward pagination object containing the next page cursor
 public type ForwardPaging record {
     # Contains information about the next page
     NextPage next?;
 };
 
+# Visual style settings for a button element in an email
 public type PublicButtonStyleSettings record {
+    # Background color of the button
     string backgroundColor?;
+    # Defines font styling properties including size, color, weight, and decoration for email text elements
     PublicFontStyle fontStyle?;
+    # Corner radius of the button in pixels
     int:Signed32 cornerRadius?;
 };
 
@@ -147,6 +173,7 @@ public type PublicButtonStyleSettings record {
 public type PublicEmailSubscriptionDetails record {
     # ID of the selected office location
     string officeLocationId?;
+    # ID of the subscription preferences group for the email
     string preferencesGroupId?;
     # ID of the subscription
     string subscriptionId?;
@@ -162,10 +189,13 @@ public type EmailUpdateRequest record {
     PublicEmailTestingDetails testing?;
     # The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails
     string publishDate?;
+    # BCP 47 language locale code for the email content
     "af"|"af-na"|"af-za"|"agq"|"agq-cm"|"ak"|"ak-gh"|"am"|"am-et"|"ann"|"ann-ng"|"ar"|"ar-001"|"ar-ae"|"ar-bh"|"ar-dj"|"ar-dz"|"ar-eg"|"ar-eh"|"ar-er"|"ar-il"|"ar-iq"|"ar-jo"|"ar-km"|"ar-kw"|"ar-lb"|"ar-ly"|"ar-ma"|"ar-mr"|"ar-om"|"ar-ps"|"ar-qa"|"ar-sa"|"ar-sd"|"ar-so"|"ar-ss"|"ar-sy"|"ar-td"|"ar-tn"|"ar-ye"|"as"|"asa"|"asa-tz"|"ast"|"ast-es"|"as-in"|"az"|"az-az"|"bas"|"bas-cm"|"be"|"bem"|"bem-zm"|"bez"|"bez-tz"|"be-by"|"bg"|"bgc"|"bgc-in"|"bg-bg"|"bho"|"bho-in"|"bm"|"bm-ml"|"bn"|"bn-bd"|"bn-in"|"bo"|"bo-cn"|"bo-in"|"br"|"brx"|"brx-in"|"br-fr"|"bs"|"bs-ba"|"ca"|"ca-ad"|"ca-es"|"ca-fr"|"ca-it"|"ccp"|"ccp-bd"|"ccp-in"|"ce"|"ceb"|"ceb-ph"|"ce-ru"|"cgg"|"cgg-ug"|"chr"|"chr-us"|"ckb"|"ckb-iq"|"ckb-ir"|"cs"|"cs-cz"|"cu"|"cu-ru"|"cv"|"cv-ru"|"cy"|"cy-gb"|"da"|"dav"|"dav-ke"|"da-dk"|"da-gl"|"de"|"de-at"|"de-be"|"de-ch"|"de-de"|"de-gr"|"de-it"|"de-li"|"de-lu"|"dje"|"dje-ne"|"doi"|"doi-in"|"dsb"|"dsb-de"|"dua"|"dua-cm"|"dyo"|"dyo-sn"|"dz"|"dz-bt"|"ebu"|"ebu-ke"|"ee"|"ee-gh"|"ee-tg"|"el"|"el-cy"|"el-gr"|"en"|"en-001"|"en-150"|"en-ae"|"en-ag"|"en-ai"|"en-as"|"en-at"|"en-au"|"en-bb"|"en-be"|"en-bi"|"en-bm"|"en-bs"|"en-bw"|"en-bz"|"en-ca"|"en-cc"|"en-ch"|"en-ck"|"en-cm"|"en-cn"|"en-cx"|"en-cy"|"en-de"|"en-dg"|"en-dk"|"en-dm"|"en-ee"|"en-er"|"en-fi"|"en-fj"|"en-fk"|"en-fm"|"en-fr"|"en-gb"|"en-gd"|"en-gg"|"en-gh"|"en-gi"|"en-gm"|"en-gu"|"en-gy"|"en-hk"|"en-ie"|"en-il"|"en-im"|"en-in"|"en-io"|"en-je"|"en-jm"|"en-ke"|"en-ki"|"en-kn"|"en-ky"|"en-lc"|"en-lr"|"en-ls"|"en-lu"|"en-mg"|"en-mh"|"en-mo"|"en-mp"|"en-ms"|"en-mt"|"en-mu"|"en-mv"|"en-mw"|"en-mx"|"en-my"|"en-na"|"en-nf"|"en-ng"|"en-nl"|"en-nr"|"en-nu"|"en-nz"|"en-pg"|"en-ph"|"en-pk"|"en-pn"|"en-pr"|"en-pw"|"en-rw"|"en-sb"|"en-sc"|"en-sd"|"en-se"|"en-sg"|"en-sh"|"en-si"|"en-sl"|"en-ss"|"en-sx"|"en-sz"|"en-tc"|"en-tk"|"en-to"|"en-tt"|"en-tv"|"en-tz"|"en-ug"|"en-um"|"en-us"|"en-vc"|"en-vg"|"en-vi"|"en-vu"|"en-ws"|"en-za"|"en-zm"|"en-zw"|"eo"|"eo-001"|"es"|"es-419"|"es-ar"|"es-bo"|"es-br"|"es-bz"|"es-cl"|"es-co"|"es-cr"|"es-cu"|"es-do"|"es-ea"|"es-ec"|"es-es"|"es-gq"|"es-gt"|"es-hn"|"es-ic"|"es-mx"|"es-ni"|"es-pa"|"es-pe"|"es-ph"|"es-pr"|"es-py"|"es-sv"|"es-us"|"es-uy"|"es-ve"|"et"|"et-ee"|"eu"|"eu-es"|"ewo"|"ewo-cm"|"fa"|"fa-af"|"fa-ir"|"ff"|"ff-bf"|"ff-cm"|"ff-gh"|"ff-gm"|"ff-gn"|"ff-gw"|"ff-lr"|"ff-mr"|"ff-ne"|"ff-ng"|"ff-sl"|"ff-sn"|"fi"|"fil"|"fil-ph"|"fi-fi"|"fo"|"fo-dk"|"fo-fo"|"fr"|"frr"|"frr-de"|"fr-be"|"fr-bf"|"fr-bi"|"fr-bj"|"fr-bl"|"fr-ca"|"fr-cd"|"fr-cf"|"fr-cg"|"fr-ch"|"fr-ci"|"fr-cm"|"fr-dj"|"fr-dz"|"fr-fr"|"fr-ga"|"fr-gf"|"fr-gn"|"fr-gp"|"fr-gq"|"fr-ht"|"fr-km"|"fr-lu"|"fr-ma"|"fr-mc"|"fr-mf"|"fr-mg"|"fr-ml"|"fr-mq"|"fr-mr"|"fr-mu"|"fr-nc"|"fr-ne"|"fr-pf"|"fr-pm"|"fr-re"|"fr-rw"|"fr-sc"|"fr-sn"|"fr-sy"|"fr-td"|"fr-tg"|"fr-tn"|"fr-vu"|"fr-wf"|"fr-yt"|"fur"|"fur-it"|"fy"|"fy-nl"|"ga"|"ga-gb"|"ga-ie"|"gd"|"gd-gb"|"gl"|"gl-es"|"gsw"|"gsw-ch"|"gsw-fr"|"gsw-li"|"gu"|"guz"|"guz-ke"|"gu-in"|"gv"|"gv-im"|"ha"|"haw"|"haw-us"|"ha-gh"|"ha-ne"|"ha-ng"|"he"|"hi"|"hi-in"|"hr"|"hr-ba"|"hr-hr"|"hsb"|"hsb-de"|"hu"|"hu-hu"|"hy"|"hy-am"|"ia"|"ia-001"|"id"|"ig"|"ig-ng"|"ii"|"ii-cn"|"id-id"|"is"|"is-is"|"it"|"it-ch"|"it-it"|"it-sm"|"it-va"|"he-il"|"ja"|"ja-jp"|"jgo"|"jgo-cm"|"yi"|"yi-001"|"jmc"|"jmc-tz"|"jv"|"jv-id"|"ka"|"kab"|"kab-dz"|"kam"|"kam-ke"|"ka-ge"|"kde"|"kde-tz"|"kea"|"kea-cv"|"kgp"|"kgp-br"|"khq"|"khq-ml"|"ki"|"ki-ke"|"kk"|"kkj"|"kkj-cm"|"kk-kz"|"kl"|"kln"|"kln-ke"|"kl-gl"|"km"|"km-kh"|"kn"|"kn-in"|"ko"|"kok"|"kok-in"|"ko-kp"|"ko-kr"|"ks"|"ksb"|"ksb-tz"|"ksf"|"ksf-cm"|"ksh"|"ksh-de"|"ks-in"|"ku"|"ku-tr"|"kw"|"kw-gb"|"ky"|"ky-kg"|"lag"|"lag-tz"|"lb"|"lb-lu"|"lg"|"lg-ug"|"lkt"|"lkt-us"|"ln"|"ln-ao"|"ln-cd"|"ln-cf"|"ln-cg"|"lo"|"lo-la"|"lrc"|"lrc-iq"|"lrc-ir"|"lt"|"lt-lt"|"lu"|"luo"|"luo-ke"|"luy"|"luy-ke"|"lu-cd"|"lv"|"lv-lv"|"mai"|"mai-in"|"mas"|"mas-ke"|"mas-tz"|"mdf"|"mdf-ru"|"mer"|"mer-ke"|"mfe"|"mfe-mu"|"mg"|"mgh"|"mgh-mz"|"mgo"|"mgo-cm"|"mg-mg"|"mi"|"mi-nz"|"mk"|"mk-mk"|"ml"|"ml-in"|"mn"|"mni"|"mni-in"|"mn-mn"|"mr"|"mr-in"|"ms"|"ms-bn"|"ms-id"|"ms-my"|"ms-sg"|"mt"|"mt-mt"|"mua"|"mua-cm"|"my"|"my-mm"|"mzn"|"mzn-ir"|"naq"|"naq-na"|"nb"|"nb-no"|"nb-sj"|"nd"|"nds"|"nds-de"|"nds-nl"|"nd-zw"|"ne"|"ne-in"|"ne-np"|"nl"|"nl-aw"|"nl-be"|"nl-bq"|"nl-ch"|"nl-cw"|"nl-lu"|"nl-nl"|"nl-sr"|"nl-sx"|"nmg"|"nmg-cm"|"nn"|"nnh"|"nnh-cm"|"nn-no"|"no"|"no-no"|"nus"|"nus-ss"|"nyn"|"nyn-ug"|"oc"|"oc-es"|"oc-fr"|"om"|"om-et"|"om-ke"|"or"|"or-in"|"os"|"os-ge"|"os-ru"|"pa"|"pa-in"|"pa-pk"|"pcm"|"pcm-ng"|"pis"|"pis-sb"|"pl"|"pl-pl"|"prg"|"prg-001"|"ps"|"ps-af"|"ps-pk"|"pt"|"pt-ao"|"pt-br"|"pt-ch"|"pt-cv"|"pt-gq"|"pt-gw"|"pt-lu"|"pt-mo"|"pt-mz"|"pt-pt"|"pt-st"|"pt-tl"|"qu"|"qu-bo"|"qu-ec"|"qu-pe"|"raj"|"raj-in"|"rm"|"rm-ch"|"rn"|"rn-bi"|"ro"|"rof"|"rof-tz"|"ro-md"|"ro-ro"|"ru"|"ru-by"|"ru-kg"|"ru-kz"|"ru-md"|"ru-ru"|"ru-ua"|"rw"|"rwk"|"rwk-tz"|"rw-rw"|"sa"|"sah"|"sah-ru"|"saq"|"saq-ke"|"sat"|"sat-in"|"sa-in"|"sbp"|"sbp-tz"|"sc"|"sc-it"|"sd"|"sd-in"|"sd-pk"|"se"|"seh"|"seh-mz"|"ses"|"ses-ml"|"se-fi"|"se-no"|"se-se"|"sg"|"sg-cf"|"shi"|"shi-ma"|"si"|"si-lk"|"sk"|"sk-sk"|"sl"|"sl-si"|"smn"|"smn-fi"|"sms"|"sms-fi"|"sn"|"sn-zw"|"so"|"so-dj"|"so-et"|"so-ke"|"so-so"|"sq"|"sq-al"|"sq-mk"|"sq-xk"|"sr"|"sr-ba"|"sr-cs"|"sr-me"|"sr-rs"|"sr-xk"|"su"|"su-id"|"sv"|"sv-ax"|"sv-fi"|"sv-se"|"sw"|"sw-cd"|"sw-ke"|"sw-tz"|"sw-ug"|"sy"|"ta"|"ta-in"|"ta-lk"|"ta-my"|"ta-sg"|"te"|"teo"|"teo-ke"|"teo-ug"|"te-in"|"tg"|"tg-tj"|"th"|"th-th"|"ti"|"ti-er"|"ti-et"|"tk"|"tk-tm"|"tl"|"to"|"tok"|"tok-001"|"to-to"|"tr"|"tr-cy"|"tr-tr"|"tt"|"tt-ru"|"twq"|"twq-ne"|"tzm"|"tzm-ma"|"ug"|"ug-cn"|"uk"|"uk-ua"|"ur"|"ur-in"|"ur-pk"|"uz"|"uz-af"|"uz-uz"|"vai"|"vai-lr"|"vi"|"vi-vn"|"vo"|"vo-001"|"vun"|"vun-tz"|"wae"|"wae-ch"|"wo"|"wo-sn"|"xh"|"xh-za"|"xog"|"xog-ug"|"yav"|"yav-cm"|"yo"|"yo-bj"|"yo-ng"|"yrl"|"yrl-br"|"yrl-co"|"yrl-ve"|"yue"|"yue-cn"|"yue-hk"|"zgh"|"zgh-ma"|"zh"|"zh-cn"|"zh-hans"|"zh-hant"|"zh-hk"|"zh-mo"|"zh-sg"|"zh-tw"|"zu"|"zu-za" language?;
+    # ID of the business unit associated with this email
     int businessUnitId?;
     # Data structure representing the content of the email
     PublicEmailContent content?;
+    # Web version page settings for a marketing email, including URL, redirect configuration, metadata, and expiry details
     PublicWebversionDetails webversion?;
     # Determines if the email is archived or not
     boolean archived?;
@@ -179,6 +209,7 @@ public type EmailUpdateRequest record {
     string campaign?;
     # Data structure representing the from fields on the email
     PublicEmailFromDetails 'from?;
+    # Whether to randomize the send time slightly to distribute load
     boolean jitterSendTime?;
     # The email state
     "AUTOMATED"|"AUTOMATED_DRAFT"|"AUTOMATED_SENDING"|"AUTOMATED_FOR_FORM"|"AUTOMATED_FOR_FORM_BUFFER"|"AUTOMATED_FOR_FORM_DRAFT"|"AUTOMATED_FOR_FORM_LEGACY"|"BLOG_EMAIL_DRAFT"|"BLOG_EMAIL_PUBLISHED"|"DRAFT"|"DRAFT_AB"|"DRAFT_AB_VARIANT"|"ERROR"|"LOSER_AB_VARIANT"|"PAGE_STUB"|"PRE_PROCESSING"|"PROCESSING"|"PUBLISHED"|"PUBLISHED_AB"|"PUBLISHED_AB_VARIANT"|"PUBLISHED_OR_SCHEDULED"|"RSS_TO_EMAIL_DRAFT"|"RSS_TO_EMAIL_PUBLISHED"|"SCHEDULED"|"SCHEDULED_AB"|"SCHEDULED_OR_PUBLISHED"|"AUTOMATED_AB"|"AUTOMATED_AB_VARIANT"|"AUTOMATED_DRAFT_AB"|"AUTOMATED_DRAFT_ABVARIANT"|"AUTOMATED_LOSER_ABVARIANT" state?;
@@ -202,10 +233,13 @@ public type EmailCreateRequest record {
     PublicEmailTestingDetails testing?;
     # The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails
     string publishDate?;
+    # BCP 47 language locale code for the email content
     "af"|"af-na"|"af-za"|"agq"|"agq-cm"|"ak"|"ak-gh"|"am"|"am-et"|"ann"|"ann-ng"|"ar"|"ar-001"|"ar-ae"|"ar-bh"|"ar-dj"|"ar-dz"|"ar-eg"|"ar-eh"|"ar-er"|"ar-il"|"ar-iq"|"ar-jo"|"ar-km"|"ar-kw"|"ar-lb"|"ar-ly"|"ar-ma"|"ar-mr"|"ar-om"|"ar-ps"|"ar-qa"|"ar-sa"|"ar-sd"|"ar-so"|"ar-ss"|"ar-sy"|"ar-td"|"ar-tn"|"ar-ye"|"as"|"asa"|"asa-tz"|"ast"|"ast-es"|"as-in"|"az"|"az-az"|"bas"|"bas-cm"|"be"|"bem"|"bem-zm"|"bez"|"bez-tz"|"be-by"|"bg"|"bgc"|"bgc-in"|"bg-bg"|"bho"|"bho-in"|"bm"|"bm-ml"|"bn"|"bn-bd"|"bn-in"|"bo"|"bo-cn"|"bo-in"|"br"|"brx"|"brx-in"|"br-fr"|"bs"|"bs-ba"|"ca"|"ca-ad"|"ca-es"|"ca-fr"|"ca-it"|"ccp"|"ccp-bd"|"ccp-in"|"ce"|"ceb"|"ceb-ph"|"ce-ru"|"cgg"|"cgg-ug"|"chr"|"chr-us"|"ckb"|"ckb-iq"|"ckb-ir"|"cs"|"cs-cz"|"cu"|"cu-ru"|"cv"|"cv-ru"|"cy"|"cy-gb"|"da"|"dav"|"dav-ke"|"da-dk"|"da-gl"|"de"|"de-at"|"de-be"|"de-ch"|"de-de"|"de-gr"|"de-it"|"de-li"|"de-lu"|"dje"|"dje-ne"|"doi"|"doi-in"|"dsb"|"dsb-de"|"dua"|"dua-cm"|"dyo"|"dyo-sn"|"dz"|"dz-bt"|"ebu"|"ebu-ke"|"ee"|"ee-gh"|"ee-tg"|"el"|"el-cy"|"el-gr"|"en"|"en-001"|"en-150"|"en-ae"|"en-ag"|"en-ai"|"en-as"|"en-at"|"en-au"|"en-bb"|"en-be"|"en-bi"|"en-bm"|"en-bs"|"en-bw"|"en-bz"|"en-ca"|"en-cc"|"en-ch"|"en-ck"|"en-cm"|"en-cn"|"en-cx"|"en-cy"|"en-de"|"en-dg"|"en-dk"|"en-dm"|"en-ee"|"en-er"|"en-fi"|"en-fj"|"en-fk"|"en-fm"|"en-fr"|"en-gb"|"en-gd"|"en-gg"|"en-gh"|"en-gi"|"en-gm"|"en-gu"|"en-gy"|"en-hk"|"en-ie"|"en-il"|"en-im"|"en-in"|"en-io"|"en-je"|"en-jm"|"en-ke"|"en-ki"|"en-kn"|"en-ky"|"en-lc"|"en-lr"|"en-ls"|"en-lu"|"en-mg"|"en-mh"|"en-mo"|"en-mp"|"en-ms"|"en-mt"|"en-mu"|"en-mv"|"en-mw"|"en-mx"|"en-my"|"en-na"|"en-nf"|"en-ng"|"en-nl"|"en-nr"|"en-nu"|"en-nz"|"en-pg"|"en-ph"|"en-pk"|"en-pn"|"en-pr"|"en-pw"|"en-rw"|"en-sb"|"en-sc"|"en-sd"|"en-se"|"en-sg"|"en-sh"|"en-si"|"en-sl"|"en-ss"|"en-sx"|"en-sz"|"en-tc"|"en-tk"|"en-to"|"en-tt"|"en-tv"|"en-tz"|"en-ug"|"en-um"|"en-us"|"en-vc"|"en-vg"|"en-vi"|"en-vu"|"en-ws"|"en-za"|"en-zm"|"en-zw"|"eo"|"eo-001"|"es"|"es-419"|"es-ar"|"es-bo"|"es-br"|"es-bz"|"es-cl"|"es-co"|"es-cr"|"es-cu"|"es-do"|"es-ea"|"es-ec"|"es-es"|"es-gq"|"es-gt"|"es-hn"|"es-ic"|"es-mx"|"es-ni"|"es-pa"|"es-pe"|"es-ph"|"es-pr"|"es-py"|"es-sv"|"es-us"|"es-uy"|"es-ve"|"et"|"et-ee"|"eu"|"eu-es"|"ewo"|"ewo-cm"|"fa"|"fa-af"|"fa-ir"|"ff"|"ff-bf"|"ff-cm"|"ff-gh"|"ff-gm"|"ff-gn"|"ff-gw"|"ff-lr"|"ff-mr"|"ff-ne"|"ff-ng"|"ff-sl"|"ff-sn"|"fi"|"fil"|"fil-ph"|"fi-fi"|"fo"|"fo-dk"|"fo-fo"|"fr"|"frr"|"frr-de"|"fr-be"|"fr-bf"|"fr-bi"|"fr-bj"|"fr-bl"|"fr-ca"|"fr-cd"|"fr-cf"|"fr-cg"|"fr-ch"|"fr-ci"|"fr-cm"|"fr-dj"|"fr-dz"|"fr-fr"|"fr-ga"|"fr-gf"|"fr-gn"|"fr-gp"|"fr-gq"|"fr-ht"|"fr-km"|"fr-lu"|"fr-ma"|"fr-mc"|"fr-mf"|"fr-mg"|"fr-ml"|"fr-mq"|"fr-mr"|"fr-mu"|"fr-nc"|"fr-ne"|"fr-pf"|"fr-pm"|"fr-re"|"fr-rw"|"fr-sc"|"fr-sn"|"fr-sy"|"fr-td"|"fr-tg"|"fr-tn"|"fr-vu"|"fr-wf"|"fr-yt"|"fur"|"fur-it"|"fy"|"fy-nl"|"ga"|"ga-gb"|"ga-ie"|"gd"|"gd-gb"|"gl"|"gl-es"|"gsw"|"gsw-ch"|"gsw-fr"|"gsw-li"|"gu"|"guz"|"guz-ke"|"gu-in"|"gv"|"gv-im"|"ha"|"haw"|"haw-us"|"ha-gh"|"ha-ne"|"ha-ng"|"he"|"hi"|"hi-in"|"hr"|"hr-ba"|"hr-hr"|"hsb"|"hsb-de"|"hu"|"hu-hu"|"hy"|"hy-am"|"ia"|"ia-001"|"id"|"ig"|"ig-ng"|"ii"|"ii-cn"|"id-id"|"is"|"is-is"|"it"|"it-ch"|"it-it"|"it-sm"|"it-va"|"he-il"|"ja"|"ja-jp"|"jgo"|"jgo-cm"|"yi"|"yi-001"|"jmc"|"jmc-tz"|"jv"|"jv-id"|"ka"|"kab"|"kab-dz"|"kam"|"kam-ke"|"ka-ge"|"kde"|"kde-tz"|"kea"|"kea-cv"|"kgp"|"kgp-br"|"khq"|"khq-ml"|"ki"|"ki-ke"|"kk"|"kkj"|"kkj-cm"|"kk-kz"|"kl"|"kln"|"kln-ke"|"kl-gl"|"km"|"km-kh"|"kn"|"kn-in"|"ko"|"kok"|"kok-in"|"ko-kp"|"ko-kr"|"ks"|"ksb"|"ksb-tz"|"ksf"|"ksf-cm"|"ksh"|"ksh-de"|"ks-in"|"ku"|"ku-tr"|"kw"|"kw-gb"|"ky"|"ky-kg"|"lag"|"lag-tz"|"lb"|"lb-lu"|"lg"|"lg-ug"|"lkt"|"lkt-us"|"ln"|"ln-ao"|"ln-cd"|"ln-cf"|"ln-cg"|"lo"|"lo-la"|"lrc"|"lrc-iq"|"lrc-ir"|"lt"|"lt-lt"|"lu"|"luo"|"luo-ke"|"luy"|"luy-ke"|"lu-cd"|"lv"|"lv-lv"|"mai"|"mai-in"|"mas"|"mas-ke"|"mas-tz"|"mdf"|"mdf-ru"|"mer"|"mer-ke"|"mfe"|"mfe-mu"|"mg"|"mgh"|"mgh-mz"|"mgo"|"mgo-cm"|"mg-mg"|"mi"|"mi-nz"|"mk"|"mk-mk"|"ml"|"ml-in"|"mn"|"mni"|"mni-in"|"mn-mn"|"mr"|"mr-in"|"ms"|"ms-bn"|"ms-id"|"ms-my"|"ms-sg"|"mt"|"mt-mt"|"mua"|"mua-cm"|"my"|"my-mm"|"mzn"|"mzn-ir"|"naq"|"naq-na"|"nb"|"nb-no"|"nb-sj"|"nd"|"nds"|"nds-de"|"nds-nl"|"nd-zw"|"ne"|"ne-in"|"ne-np"|"nl"|"nl-aw"|"nl-be"|"nl-bq"|"nl-ch"|"nl-cw"|"nl-lu"|"nl-nl"|"nl-sr"|"nl-sx"|"nmg"|"nmg-cm"|"nn"|"nnh"|"nnh-cm"|"nn-no"|"no"|"no-no"|"nus"|"nus-ss"|"nyn"|"nyn-ug"|"oc"|"oc-es"|"oc-fr"|"om"|"om-et"|"om-ke"|"or"|"or-in"|"os"|"os-ge"|"os-ru"|"pa"|"pa-in"|"pa-pk"|"pcm"|"pcm-ng"|"pis"|"pis-sb"|"pl"|"pl-pl"|"prg"|"prg-001"|"ps"|"ps-af"|"ps-pk"|"pt"|"pt-ao"|"pt-br"|"pt-ch"|"pt-cv"|"pt-gq"|"pt-gw"|"pt-lu"|"pt-mo"|"pt-mz"|"pt-pt"|"pt-st"|"pt-tl"|"qu"|"qu-bo"|"qu-ec"|"qu-pe"|"raj"|"raj-in"|"rm"|"rm-ch"|"rn"|"rn-bi"|"ro"|"rof"|"rof-tz"|"ro-md"|"ro-ro"|"ru"|"ru-by"|"ru-kg"|"ru-kz"|"ru-md"|"ru-ru"|"ru-ua"|"rw"|"rwk"|"rwk-tz"|"rw-rw"|"sa"|"sah"|"sah-ru"|"saq"|"saq-ke"|"sat"|"sat-in"|"sa-in"|"sbp"|"sbp-tz"|"sc"|"sc-it"|"sd"|"sd-in"|"sd-pk"|"se"|"seh"|"seh-mz"|"ses"|"ses-ml"|"se-fi"|"se-no"|"se-se"|"sg"|"sg-cf"|"shi"|"shi-ma"|"si"|"si-lk"|"sk"|"sk-sk"|"sl"|"sl-si"|"smn"|"smn-fi"|"sms"|"sms-fi"|"sn"|"sn-zw"|"so"|"so-dj"|"so-et"|"so-ke"|"so-so"|"sq"|"sq-al"|"sq-mk"|"sq-xk"|"sr"|"sr-ba"|"sr-cs"|"sr-me"|"sr-rs"|"sr-xk"|"su"|"su-id"|"sv"|"sv-ax"|"sv-fi"|"sv-se"|"sw"|"sw-cd"|"sw-ke"|"sw-tz"|"sw-ug"|"sy"|"ta"|"ta-in"|"ta-lk"|"ta-my"|"ta-sg"|"te"|"teo"|"teo-ke"|"teo-ug"|"te-in"|"tg"|"tg-tj"|"th"|"th-th"|"ti"|"ti-er"|"ti-et"|"tk"|"tk-tm"|"tl"|"to"|"tok"|"tok-001"|"to-to"|"tr"|"tr-cy"|"tr-tr"|"tt"|"tt-ru"|"twq"|"twq-ne"|"tzm"|"tzm-ma"|"ug"|"ug-cn"|"uk"|"uk-ua"|"ur"|"ur-in"|"ur-pk"|"uz"|"uz-af"|"uz-uz"|"vai"|"vai-lr"|"vi"|"vi-vn"|"vo"|"vo-001"|"vun"|"vun-tz"|"wae"|"wae-ch"|"wo"|"wo-sn"|"xh"|"xh-za"|"xog"|"xog-ug"|"yav"|"yav-cm"|"yo"|"yo-bj"|"yo-ng"|"yrl"|"yrl-br"|"yrl-co"|"yrl-ve"|"yue"|"yue-cn"|"yue-hk"|"zgh"|"zgh-ma"|"zh"|"zh-cn"|"zh-hans"|"zh-hant"|"zh-hk"|"zh-mo"|"zh-sg"|"zh-tw"|"zu"|"zu-za" language?;
+    # ID of the business unit associated with this email
     int businessUnitId?;
     # Data structure representing the content of the email
     PublicEmailContent content?;
+    # Web version page settings for a marketing email, including URL, redirect configuration, metadata, and expiry details
     PublicWebversionDetails webversion?;
     # Determines if the email is archived or not
     boolean archived?;
@@ -219,6 +253,7 @@ public type EmailCreateRequest record {
     string campaign?;
     # Data structure representing the from fields on the email
     PublicEmailFromDetails 'from?;
+    # Whether to randomize the send time slightly to distribute load
     boolean jitterSendTime?;
     # The email state
     "AUTOMATED"|"AUTOMATED_DRAFT"|"AUTOMATED_SENDING"|"AUTOMATED_FOR_FORM"|"AUTOMATED_FOR_FORM_BUFFER"|"AUTOMATED_FOR_FORM_DRAFT"|"AUTOMATED_FOR_FORM_LEGACY"|"BLOG_EMAIL_DRAFT"|"BLOG_EMAIL_PUBLISHED"|"DRAFT"|"DRAFT_AB"|"DRAFT_AB_VARIANT"|"ERROR"|"LOSER_AB_VARIANT"|"PAGE_STUB"|"PRE_PROCESSING"|"PROCESSING"|"PUBLISHED"|"PUBLISHED_AB"|"PUBLISHED_AB_VARIANT"|"PUBLISHED_OR_SCHEDULED"|"RSS_TO_EMAIL_DRAFT"|"RSS_TO_EMAIL_PUBLISHED"|"SCHEDULED"|"SCHEDULED_AB"|"SCHEDULED_OR_PUBLISHED"|"AUTOMATED_AB"|"AUTOMATED_AB_VARIANT"|"AUTOMATED_DRAFT_AB"|"AUTOMATED_DRAFT_ABVARIANT"|"AUTOMATED_LOSER_ABVARIANT" state?;
@@ -232,12 +267,15 @@ public type EmailCreateRequest record {
 
 # Represents the Queries record for the operation: get-/{emailId}
 public type GetEmailIdQueries record {
+    # When true, includes names of associated workflows in the response
     boolean workflowNames?;
     # Whether to return only results that have been archived
     boolean archived?;
+    # When true, includes associated marketing campaign names in the response
     boolean marketingCampaignNames?;
     # Include statistics with email
     boolean includeStats?;
+    # List of specific properties to include in the response for the marketing email
     string[] includedProperties?;
 };
 
@@ -254,15 +292,16 @@ public type VersionPublicEmail record {
     string id;
     # Model definition for a version user. Contains addition information about the user who created a version
     VersionUser user;
+    # Timestamp of when the email version was last updated
     string updated;
     # A marketing email
     PublicEmail 'object;
 };
 
-# Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
+# Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint
 @display {label: "Connection Config"}
 public type ConnectionConfig record {|
-    # Provides Auth configurations needed when communicating with a remote HTTP endpoint.
+    # Provides Auth configurations needed when communicating with a remote HTTP endpoint
     http:BearerTokenConfig|OAuth2RefreshTokenGrantConfig|ApiKeysConfig auth;
     # The HTTP version understood by the client
     http:HttpVersion httpVersion = http:HTTP_2_0;
@@ -299,7 +338,7 @@ public type ConnectionConfig record {|
     # Enables the inbound payload validation functionality which provided by the constraint package. Enabled by default
     boolean validation = true;
     # Enables relaxed data binding on the client side. When enabled, `nil` values are treated as optional, 
-    # and absent fields are handled as `nilable` types. Enabled by default.
+    # and absent fields are handled as `nilable` types. Enabled by default
     boolean laxDataBinding = true;
 |};
 
@@ -341,12 +380,19 @@ public type GetStatisticsListQueries record {
     string startTimestamp?;
 };
 
+# Defines font styling properties including size, color, weight, and decoration for email text elements
 public type PublicFontStyle record {
+    # Font size in points
     int:Signed32 size?;
+    # Font color as a hex or CSS color value
     string color?;
+    # Indicates whether the text is underlined
     boolean underline?;
+    # Indicates whether the text is bold
     boolean bold?;
+    # Indicates whether the text is italicized
     boolean italic?;
+    # Font family name applied to the text
     string font?;
 };
 
@@ -386,36 +432,67 @@ public type Paging record {
     PreviousPage prev?;
 };
 
+# Defines the visual style configuration for a marketing email, including layout, typography, colors, and component-level style settings
 public type PublicEmailStyleSettings record {
+    # Padding applied around the email body content
     string emailBodyPadding?;
+    # Fifth saved favorite color in the email editor color picker
     string colorPickerFavorite5?;
+    # Background color of the email body container
     string bodyColor?;
+    # Sixth saved favorite color in the email editor color picker
     string colorPickerFavorite6?;
+    # URL of the background image applied to the email
     string backgroundImage?;
+    # Width of the email body container
     string emailBodyWidth?;
+    # Secondary font family used in the email layout
     string secondaryFont?;
+    # Primary accent color used throughout the email template
     string primaryAccentColor?;
+    # Third saved favorite color in the color picker palette
     string colorPickerFavorite3?;
+    # Line height applied to the primary font text
     string primaryFontLineHeight?;
+    # Fourth saved favorite color in the color picker palette
     string colorPickerFavorite4?;
+    # Color applied to secondary font text in the email
     string secondaryFontColor?;
+    # First saved favorite color in the color picker palette
     string colorPickerFavorite1?;
+    # Second saved favorite color in the color picker palette
     string colorPickerFavorite2?;
+    # Color of the border surrounding the email body
     string bodyBorderColor?;
+    # Width in pixels of the border surrounding the email body
     int:Signed32 bodyBorderWidth?;
+    # Defines font styling properties including size, color, weight, and decoration for email text elements
     PublicFontStyle linksFont?;
+    # Background color of the email template
     string backgroundColor?;
+    # Specifies the type of background image used in the email
     string backgroundImageType?;
+    # Style settings for a divider element, including color, line type, and height
     PublicDividerStyleSettings dividerStyleSettings?;
+    # Secondary accent color used throughout the email template
     string secondaryAccentColor?;
+    # Line height applied to the secondary font text
     string secondaryFontLineHeight?;
+    # Font size in points applied to primary text in the email
     int:Signed32 primaryFontSize?;
+    # Font size in points applied to secondary text in the email
     int:Signed32 secondaryFontSize?;
+    # Color applied to primary font text in the email
     string primaryFontColor?;
+    # Defines font styling properties including size, color, weight, and decoration for email text elements
     PublicFontStyle headingOneFont?;
+    # Primary font family used for body text in the email
     string primaryFont?;
+    # Defines font styling properties including size, color, weight, and decoration for email text elements
     PublicFontStyle headingTwoFont?;
+    # Visual style settings for a button element in an email
     PublicButtonStyleSettings buttonStyleSettings?;
+    # Color choice for the email body border
     string bodyBorderColorChoice?;
 };
 
@@ -443,19 +520,31 @@ public type PublicEmailTestingDetails record {
     "CLICKS_BY_OPENS"|"CLICKS_BY_DELIVERED"|"OPENS_BY_DELIVERED" abSuccessMetric?;
 };
 
+# Web version page settings for a marketing email, including URL, redirect configuration, metadata, and expiry details
 public type PublicWebversionDetails record {
+    # Domain used to host the email web version page
     string domain?;
+    # ID of the page to redirect the web version to
     string redirectToPageId?;
+    # Indicates whether the web version page is redirected
     boolean isPageRedirected?;
+    # URL to redirect the web version page to
     string redirectToUrl?;
+    # Title displayed on the email web version page
     string title?;
+    # Meta description for the email web version page
     string metaDescription?;
+    # Indicates whether page expiry is enabled
     boolean pageExpiryEnabled?;
+    # URL slug for the email web version page
     string slug?;
+    # Full URL of the email web version page
     string url?;
+    # Datetime when the web version page expires
     string expiresAt?;
 };
 
+# Aggregated email performance statistics including counters, engagement ratios, device breakdowns, and delivery qualifier metrics
 public type EmailStatisticsData record {
     # Statistics by device
     record {|record {|int...;|}...;|} deviceBreakdown;
@@ -469,14 +558,23 @@ public type EmailStatisticsData record {
 
 # RSS related data if it is a blog or rss email
 public type PublicRssEmailDetails record {
+    # Maximum width in pixels for images in blog RSS emails
     int:Signed32 blogImageMaxWidth?;
+    # Type classification of the blog RSS email
     string blogEmailType?;
+    # ID of the HubSpot blog associated with the RSS email
     string hubspotBlogId?;
+    # Template used to render individual RSS feed entries
     string rssEntryTemplate?;
+    # Scheduling timing configuration for the RSS email sends
     record {|record {}...;|} timing?;
+    # Maximum number of RSS feed entries to include in the email
     int:Signed32 maxEntries?;
+    # Whether to use the RSS feed headline as the email subject line
     boolean useHeadlineAsSubject?;
+    # Layout style used to render blog content in the RSS email
     string blogLayout?;
+    # URL of the RSS feed source for the email
     string url?;
 };
 
@@ -486,6 +584,7 @@ public type AggregateEmailStatistics record {
     int[] emails?;
     # The aggregated statistics per campaign
     record {|EmailStatisticsData...;|} campaignAggregations?;
+    # Aggregated email performance statistics including counters, engagement ratios, device breakdowns, and delivery qualifier metrics
     EmailStatisticsData aggregate?;
 };
 
@@ -519,7 +618,9 @@ public type GetQueries record {
     string createdAfter?;
     # Email types to be filtered by. Multiple types can be included. All emails will be returned if not present
     "AB_EMAIL"|"BATCH_EMAIL"|"LOCALTIME_EMAIL"|"AUTOMATED_AB_EMAIL"|"BLOG_EMAIL"|"BLOG_EMAIL_CHILD"|"RSS_EMAIL"|"RSS_EMAIL_CHILD"|"RESUBSCRIBE_EMAIL"|"OPTIN_EMAIL"|"OPTIN_FOLLOWUP_EMAIL"|"AUTOMATED_EMAIL"|"FEEDBACK_CES_EMAIL"|"FEEDBACK_CUSTOM_EMAIL"|"FEEDBACK_CUSTOM_SURVEY_EMAIL"|"FEEDBACK_NPS_EMAIL"|"FOLLOWUP_EMAIL"|"LEADFLOW_EMAIL"|"SINGLE_SEND_API"|"MARKETING_SINGLE_SEND_API"|"SMTP_TOKEN"|"TICKET_EMAIL"|"MEMBERSHIP_REGISTRATION_EMAIL"|"MEMBERSHIP_PASSWORD_SAVED_EMAIL"|"MEMBERSHIP_PASSWORD_RESET_EMAIL"|"MEMBERSHIP_EMAIL_VERIFICATION_EMAIL"|"MEMBERSHIP_PASSWORDLESS_AUTH_EMAIL"|"MEMBERSHIP_REGISTRATION_FOLLOW_UP_EMAIL"|"MEMBERSHIP_OTP_LOGIN_EMAIL"|"MEMBERSHIP_FOLLOW_UP_EMAIL"|"MEMBERSHIP_VERIFICATION_EMAIL" 'type?;
+    # List of specific properties to include in the response for each marketing email
     string[] includedProperties?;
+    # Whether to include associated workflow names in the response
     boolean workflowNames?;
     # Only return emails created at exactly the specified time
     string createdAt?;
@@ -527,6 +628,7 @@ public type GetQueries record {
     string updatedBefore?;
     # Specifies whether to return archived emails. Defaults to `false`
     boolean archived?;
+    # Whether to include associated marketing campaign names in the response
     boolean marketingCampaignNames?;
     # Include statistics with emails
     boolean includeStats?;
@@ -560,24 +662,35 @@ public type NextPage record {
     string after;
 };
 
-# Provides API key configurations needed when communicating with a remote HTTP endpoint.
+# Provides API key configurations needed when communicating with a remote HTTP endpoint
 public type ApiKeysConfig record {|
     string privateAppLegacy;
 |};
 
 # Data structure representing the content of the email
 public type PublicEmailContent record {
+    # Map of smart field keys to their SmartEmailField configurations
     record {|SmartEmailField...;|} smartFields?;
+    # Key-value map of theme setting overrides applied to the email
     record {|record {}...;|} themeSettingsValues?;
+    # Map of flexible layout areas and their content configurations
     record {|record {}...;|} flexAreas?;
+    # Map of widget identifiers to their content and configuration objects
     record {|record {}...;|} widgets?;
+    # Plain text alternative version of the email body
     string plainTextVersion?;
+    # File path to the template used to render the email
     string templatePath?;
+    # Map of container identifiers to their grouped widget configurations
     record {|record {}...;|} widgetContainers?;
+    # Defines the visual style configuration for a marketing email, including layout, typography, colors, and component-level style settings
     PublicEmailStyleSettings styleSettings?;
 };
 
+# Defines a time interval with a required start and end datetime
 public type Interval record {
+    # The start datetime of the interval
     string 'start;
+    # The end datetime of the interval
     string end;
 };

@@ -23,7 +23,7 @@ import ballerina/http;
 public isolated client class Client {
     final http:Client clientEp;
     final readonly & ApiKeysConfig? apiKeyConfig;
-    # Gets invoked to initialize the `connector`.
+    # Gets invoked to initialize the `connector`
     #
     # + config - The configurations to be used when initializing the `connector` 
     # + serviceUrl - URL of the target service 
@@ -39,7 +39,7 @@ public isolated client class Client {
         self.clientEp = check new (serviceUrl, httpClientConfig);
     }
 
-    # Get aggregated statistics.
+    # Get aggregated statistics
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -56,8 +56,9 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Publish or send a marketing email.
+    # Publish or send a marketing email
     #
+    # + emailId - The unique identifier of the email to publish
     # + headers - Headers to be sent with the request 
     # + return - No content 
     resource isolated function post [string emailId]/publish(map<string|string[]> headers = {}) returns error? {
@@ -71,7 +72,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Create an A/B test variation of a marketing email.
+    # Create an A/B test variation
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -88,7 +89,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Get aggregated statistic intervals.
+    # Get aggregated statistic intervals
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -105,7 +106,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Get the variation of a an A/B marketing email
+    # Get an A/B email variation
     #
     # + emailId - The ID of an A/B marketing email
     # + headers - Headers to be sent with the request 
@@ -136,7 +137,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Restore a revision of a marketing email to DRAFT state
+    # Restore a revision to draft
     #
     # + emailId - The marketing email ID
     # + revisionId - The ID of a revision
@@ -153,7 +154,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Get draft version of a marketing email
+    # Get email draft version
     #
     # + emailId - The marketing email ID
     # + headers - Headers to be sent with the request 
@@ -204,8 +205,9 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Unpublish or cancel a marketing email.
+    # Unpublish or cancel an email
     #
+    # + emailId - The unique identifier of the email to unpublish
     # + headers - Headers to be sent with the request 
     # + return - No content 
     resource isolated function post [string emailId]/unpublish(map<string|string[]> headers = {}) returns error? {
@@ -219,7 +221,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Get a revision of a marketing email.
+    # Get a revision of a marketing email
     #
     # + emailId - The marketing email ID
     # + revisionId - The ID of a revision
@@ -235,7 +237,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Clone a marketing email.
+    # Clone a marketing email
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -252,7 +254,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Get all marketing emails for a HubSpot account.
+    # List all marketing emails
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -269,7 +271,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Create a new marketing email.
+    # Create a new marketing email
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -286,7 +288,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Restore a revision of a marketing email
+    # Restore an email revision
     #
     # + emailId - The marketing email ID
     # + revisionId - The ID of a revision
@@ -303,7 +305,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Get the details of a specified marketing email.
+    # Get a marketing email by ID
     #
     # + emailId - The marketing email ID
     # + headers - Headers to be sent with the request 
@@ -321,7 +323,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Delete a marketing email.
+    # Delete a marketing email
     #
     # + emailId - The ID of the marketing email to delete
     # + headers - Headers to be sent with the request 
@@ -338,7 +340,7 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Update a marketing email.
+    # Update a marketing email
     #
     # + emailId - The ID of the marketing email that should get updated
     # + headers - Headers to be sent with the request 

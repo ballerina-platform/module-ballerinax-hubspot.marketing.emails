@@ -1,6 +1,6 @@
 _Author_:  Lakindu Kariyawasam \
 _Created_: 2024/12/18 \
-_Updated_: 2025/01/08 \
+_Updated_: 2026/06/18 \
 _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
@@ -128,7 +128,6 @@ These changes are done in order to improve the overall usability, and as workaro
 ```
 
 - **Reason**:  The specification originally uses `"date-time"` which is unsupported by the openapi generator tool. This change to `"datetime"` ensures it is handled correctly.
-
 
 ## OpenAPI cli command
 
