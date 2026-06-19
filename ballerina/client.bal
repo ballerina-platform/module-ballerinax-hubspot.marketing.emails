@@ -23,7 +23,7 @@ import ballerina/http;
 public isolated client class Client {
     final http:Client clientEp;
     final readonly & ApiKeysConfig? apiKeyConfig;
-    # Gets invoked to initialize the `connector`.
+    # Gets invoked to initialize the `connector`
     #
     # + config - The configurations to be used when initializing the `connector` 
     # + serviceUrl - URL of the target service 
@@ -39,7 +39,7 @@ public isolated client class Client {
         self.clientEp = check new (serviceUrl, httpClientConfig);
     }
 
-    # Get aggregated statistics.
+    # Get aggregated statistics
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -56,9 +56,9 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Publish or send a marketing email.
+    # Publish or send a marketing email
     #
-    # + emailId - The unique identifier of the email to publish.
+    # + emailId - The unique identifier of the email to publish
     # + headers - Headers to be sent with the request 
     # + return - No content 
     resource isolated function post [string emailId]/publish(map<string|string[]> headers = {}) returns error? {
@@ -89,7 +89,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Get aggregated statistic intervals.
+    # Get aggregated statistic intervals
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -207,7 +207,7 @@ public isolated client class Client {
 
     # Unpublish or cancel an email
     #
-    # + emailId - The unique identifier of the email to unpublish.
+    # + emailId - The unique identifier of the email to unpublish
     # + headers - Headers to be sent with the request 
     # + return - No content 
     resource isolated function post [string emailId]/unpublish(map<string|string[]> headers = {}) returns error? {
@@ -221,7 +221,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Get a revision of a marketing email.
+    # Get a revision of a marketing email
     #
     # + emailId - The marketing email ID
     # + revisionId - The ID of a revision
@@ -237,7 +237,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Clone a marketing email.
+    # Clone a marketing email
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -271,7 +271,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Create a new marketing email.
+    # Create a new marketing email
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -323,7 +323,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Delete a marketing email.
+    # Delete a marketing email
     #
     # + emailId - The ID of the marketing email to delete
     # + headers - Headers to be sent with the request 
@@ -340,7 +340,7 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Update a marketing email.
+    # Update a marketing email
     #
     # + emailId - The ID of the marketing email that should get updated
     # + headers - Headers to be sent with the request 
